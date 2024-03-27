@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css'; // Main styles for your app
-import ProfileHandler from './components/ProfileHandler'; // Import the new component
+import HeroSection from './components/HeroSection'; // Import the new component
 
 function App() {
     return (
         <div className="App">
-            <ProfileHandler /> {/* Use the new component */}
+            <HeroSection /> {/* Use the new component */}
         </div>
     );
 }

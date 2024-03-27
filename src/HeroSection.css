@@ -11,9 +11,9 @@
     margin-bottom: 30px; /* Increase bottom margin to push text up */
 }
 
-.text-content h1,
-.text-content p {
+.text-content h1 {
     margin: 0 0 10px; /* Adjust spacing as needed */
+    font-weight: 800;
 }
 
 .profile-container img {
