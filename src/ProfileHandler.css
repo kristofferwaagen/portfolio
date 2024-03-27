@@ -1,0 +1,52 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.text-content {
+    margin-bottom: 30px; /* Increase bottom margin to push text up */
+}
+
+.text-content h1,
+.text-content p {
+    margin: 0 0 10px; /* Adjust spacing as needed */
+}
+
+.profile-container img {
+    width: 350px; /* Fixed width */
+    height: 350px; /* Fixed height */
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.profile-container img:hover {
+    transform: scale(1.1); /* Maintains the scaling effect */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-container img {
+        width: 70%; /* Adjust based on parent container size */
+        height: auto; /* Maintain aspect ratio */
+        max-width: 350px; /* Ensures it doesn't exceed the original size */
+        max-height: 350px;
+    }
+
+    .text-content h1 {
+        font-size: 1.5rem; /* Smaller font size for smaller screens */
+    }
+
+    .text-content p {
+        font-size: 1rem; /* Adjust paragraph font size as well */
+    }
+
+    .text-content {
+        margin-bottom: 20px; /* Adjust the bottom margin for smaller screens if necessary */
+    }
+}
