@@ -1,13 +1,24 @@
-import React from 'react';
-import './App.css'; // Main styles for your app
-import HeroSection from './components/HeroSection'; // Import the new component
+import React, { useState } from 'react';
+import './App.css';
+import InitialLoad from './components/InitialLoad';
+import HeroSection from './components/HeroSection'; // Your main content component
 
-function App() {
+const App = () => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const finishLoading = () => {
+        setIsLoading(false);
+    };
+
     return (
         <div className="App">
-            <HeroSection /> {/* Use the new component */}
+            {isLoading ? (
+                <InitialLoad onFinishedLoading={finishLoading} />
+            ) : (
+                <HeroSection />
+            )}
         </div>
     );
-}
+};
 
 export default App;

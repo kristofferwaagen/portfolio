@@ -18,9 +18,7 @@ function HeroSection() {
                         1000,
                         "I'm a computer science student",
                         1000,
-                        'Find out more',
-                        1000,
-                        'By clicking my picture',
+                        'Find out more by clicking my picture',
                         1000,
                     ]}
                     wrapper="span"
