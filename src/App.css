@@ -7,10 +7,10 @@
     box-sizing: border-box;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-    .App {
-        flex-direction: column;
-        padding: 10px;
+    .text-content {
+        height: 80px; /* Adjusted height for smaller screens */
+        margin-bottom: 20px; /* Your existing adjustment */
+        /* Other styles as needed */
     }
 }
