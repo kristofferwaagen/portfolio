@@ -1,0 +1,16 @@
+.App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        .text-content {
+            height: 80px; // Adjusted height for smaller screens
+            margin-bottom: 20px; // Your existing adjustment
+            // Other styles as needed
+        }
+    }
+}

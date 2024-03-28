@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
+import './App.scss';
 import InitialLoad from './components/InitialLoad';
 import HeroSection from './components/HeroSection'; // Your main content component
 import Projects from './components/Projects';

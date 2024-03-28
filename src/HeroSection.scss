@@ -1,0 +1,63 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    position: relative; // Remains as positioning context
+    min-height: 420px; // Use min-height instead of a fixed height
+    width: 80%; // More flexible width
+    max-width: 600px; // Limits the width on larger screens
+    margin: auto; // Centers the container in the parent
+
+    .dot {
+        position: fixed; // Fixed positioning relative to the viewport
+        top: 50%; // Center the dot vertically
+        left: 50%; // Center the dot horizontally
+        transform: translate(-50%, -50%); // Centering adjustment
+        width: 20px; // Initial width, can be adjusted
+        height: 20px; // Initial height, can be adjusted
+        border-radius: 50%; // Makes it circular
+        background-color: #999; // Dot color
+        z-index: 9999; // High z-index to ensure it's on top of everything
+    }
+
+    .text-content {
+        position: absolute;
+        bottom: 0; // Closer to the bottom of the container
+        left: 0;
+        right: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+
+    img {
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3); // Larger offset, less blur, more opacity
+
+        &:hover {
+            transform: scale(1.1); // Maintains the scaling effect
+        }
+    }
+
+    @media (max-width: 768px) {
+        img {
+            width: 70%; // Adjust based on parent container size
+            height: auto; // Maintain aspect ratio
+            max-width: 350px; // Ensures it doesn't exceed the original size
+            max-height: 350px;
+        }
+
+        .text-content {
+            margin-bottom: 20px; // Adjust the bottom margin for smaller screens if necessary
+        }
+    }
+}

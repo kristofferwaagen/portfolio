@@ -1,0 +1,27 @@
+.projects-container {
+    text-align: center;
+    padding: 20px;
+
+    .project {
+        margin: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+
+        img {
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        a {
+            display: inline-block;
+            margin: 10px;
+            text-decoration: none;
+            color: #007bff;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

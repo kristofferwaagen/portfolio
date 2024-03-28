@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import '../InitialLoad.css';
+import '../InitialLoad.scss';
 
 const InitialLoad = ({ onFinishedLoading }) => {
     const scale =

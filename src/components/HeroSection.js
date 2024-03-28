@@ -4,7 +4,7 @@ import profilePicture from '../assets/profilePicture.png';
 import { TypeAnimation } from 'react-type-animation';
 import { useNavigate } from 'react-router-dom';
 import LoadingAnimation from './LoadingAnimation';
-import '../HeroSection.css';
+import '../HeroSection.scss';
 
 function HeroSection() {
     const [animationReady, setAnimationReady] = useState(false);
