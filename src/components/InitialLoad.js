@@ -8,6 +8,7 @@ const InitialLoad = ({ onFinishedLoading }) => {
 
     const [initialAnimationCompleted, setInitialAnimationCompleted] =
         useState(false);
+
     const [pulsationCompleted, setPulsationCompleted] = useState(false);
 
     const [pulsationCount, setPulsationCount] = useState(0);

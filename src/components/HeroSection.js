@@ -3,23 +3,26 @@ import { useSpring, animated } from 'react-spring';
 import profilePicture from '../assets/profilePicture.png';
 import { TypeAnimation } from 'react-type-animation';
 import { useNavigate } from 'react-router-dom';
-import '../HeroSection.css'; // Ensure the CSS file name matches
+import LoadingAnimation from './LoadingAnimation';
+import '../HeroSection.css';
 
 function HeroSection() {
     const [animationReady, setAnimationReady] = useState(false);
-
+    const [dotVisible, setDotVisible] = useState(false); // New state to control dot visibility
     const navigate = useNavigate();
 
-    // Initialize the fade and scale animation
     const fadeAndScale = useSpring({
         to: { opacity: 1, transform: 'scale(1)' },
         from: { opacity: 0, transform: 'scale(2)' },
-        delay: 500, // Adjust delay as necessary
-        onRest: () => setAnimationReady(true), // When animation completes, set animationReady
+        delay: 500,
+        onRest: () => setAnimationReady(true),
     });
 
+    const { style, start } = LoadingAnimation(() => navigate('/projects'));
+
     const handleClick = () => {
-        navigate('/projects');
+        setDotVisible(true); // Make the dot visible
+        start(); // Then start the animation
     };
 
     return (
@@ -42,6 +45,10 @@ function HeroSection() {
                     />
                 </div>
             )}
+            {dotVisible && (
+                <animated.div className="dot" style={style}></animated.div>
+            )}{' '}
+            {/* Render dot based on visibility state */}
             <img
                 src={profilePicture}
                 alt="Profile"
