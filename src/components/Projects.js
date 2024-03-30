@@ -9,7 +9,6 @@ function Projects() {
             title: 'Haskell music player',
             description:
                 'School project where we decided what we wanted to make in Haskell.',
-            demoUrl: 'http://example.com/demo1', // Placeholder demo URL
             repoUrl: 'https://github.com/kristofferwaagen/music-player', // Placeholder repository URL
         },
         {
@@ -17,7 +16,6 @@ function Projects() {
             title: 'Mario bros spinoff',
             description:
                 'School project where in a team we were tasked to make a Mario type game in Java.',
-            demoUrl: 'http://example.com/demo2',
             repoUrl: 'https://github.com/kristofferwaagen/Mario-Bros',
         },
         // Add more projects as needed
