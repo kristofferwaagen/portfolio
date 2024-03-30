@@ -6,19 +6,19 @@ function Projects() {
     const projects = [
         {
             id: 1,
-            title: 'Project 1',
-            description: 'This is a description of Project 1.',
-            imageUrl: '/path/to/image1.jpg', // Placeholder image path
+            title: 'Haskell music player',
+            description:
+                'School project where we decided what we wanted to make in Haskell.',
             demoUrl: 'http://example.com/demo1', // Placeholder demo URL
-            repoUrl: 'http://github.com/example/project1', // Placeholder repository URL
+            repoUrl: 'https://github.com/kristofferwaagen/music-player', // Placeholder repository URL
         },
         {
             id: 2,
-            title: 'Project 2',
-            description: 'This is a description of Project 2.',
-            imageUrl: '/path/to/image2.jpg',
+            title: 'Mario bros spinoff',
+            description:
+                'School project where in a team we were tasked to make a Mario type game in Java.',
             demoUrl: 'http://example.com/demo2',
-            repoUrl: 'http://github.com/example/project2',
+            repoUrl: 'https://github.com/kristofferwaagen/Mario-Bros',
         },
         // Add more projects as needed
     ];
@@ -30,11 +30,6 @@ function Projects() {
                 <div key={project.id} className="project">
                     <h2>{project.title}</h2>
                     <p>{project.description}</p>
-                    <img
-                        src={project.imageUrl}
-                        alt={project.title}
-                        style={{ width: '100px', height: '100px' }}
-                    />
                     <a
                         href={project.demoUrl}
                         target="_blank"
