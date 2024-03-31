@@ -1,14 +1,14 @@
 import React from 'react';
 import About from './About';
 import Pages from './Pages';
-import Navbar from './Navbar';
+import NavigationBar from './Navbar';
 import Intro from './Intro';
 import Contact from './Contact';
 import '../styles/PortfolioPage.scss';
 
 const PortfolioPage = () => (
     <div className="portfolio-page">
-        <Navbar />
+        <NavigationBar />
         <section className="section" id="Home">
             <Intro />
         </section>

@@ -1,24 +1,73 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import React from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import { motion } from 'framer-motion';
 import '../styles/Navbar.scss';
 
-function BasicExample() {
+const elementVariants = {
+    initial: {
+        y: -50,
+        opacity: 0,
+    },
+    animate: {
+        y: 0,
+        opacity: 1,
+        transition: {
+            duration: 1,
+        },
+    },
+};
+
+function NavigationBar() {
     return (
-        <Navbar expand="lg" className="custom-navbar">
+        <Navbar
+            expand="lg"
+            className="custom-navbar"
+            as={motion.div}
+            ariants={elementVariants}
+            initial="initial"
+            animate="animate"
+        >
             <Container>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#Home" className="nav-link">
+                        <Nav.Link
+                            as={motion.a}
+                            href="#Home"
+                            className="nav-link"
+                            variants={elementVariants}
+                            initial="initial"
+                            animate="animate"
+                        >
                             Home
                         </Nav.Link>
-                        <Nav.Link href="#About" className="nav-link">
+                        <Nav.Link
+                            as={motion.a}
+                            href="#About"
+                            className="nav-link"
+                            variants={elementVariants}
+                            initial="initial"
+                            animate="animate"
+                        >
                             About
                         </Nav.Link>
-                        <Nav.Link href="#Projects" className="nav-link">
+                        <Nav.Link
+                            as={motion.a}
+                            href="#Projects"
+                            className="nav-link"
+                            variants={elementVariants}
+                            initial="initial"
+                            animate="animate"
+                        >
                             Projects
                         </Nav.Link>
-                        <Nav.Link href="#Contact" className="nav-link">
+                        <Nav.Link
+                            as={motion.a}
+                            href="#Contact"
+                            className="nav-link"
+                            variants={elementVariants}
+                            initial="initial"
+                            animate="animate"
+                        >
                             Contact
                         </Nav.Link>
                     </Nav>
@@ -28,4 +77,4 @@ function BasicExample() {
     );
 }
 
-export default BasicExample;
+export default NavigationBar;
