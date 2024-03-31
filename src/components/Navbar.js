@@ -7,11 +7,11 @@ function BasicExample() {
     return (
         <Navbar expand="lg" className="custom-navbar">
             <Container>
-                <Navbar.Brand href="/" className="navbar-brand">
-                    React-Bootstrap
-                </Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
+                        <Nav.Link href="#Home" className="nav-link">
+                            Home
+                        </Nav.Link>
                         <Nav.Link href="#About" className="nav-link">
                             About
                         </Nav.Link>

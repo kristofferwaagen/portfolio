@@ -51,6 +51,7 @@ function HeroSection() {
             {/* Render dot based on visibility state */}
             <img
                 src={profilePicture}
+                id="HeroImage"
                 alt="Profile"
                 onClick={handleClick}
                 style={{ cursor: 'pointer' }}

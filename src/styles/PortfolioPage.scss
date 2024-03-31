@@ -2,7 +2,7 @@
 .portfolio-page {
     box-sizing: border-box; // Makes sure padding and borders are within the 100vh
     margin: 0; // Removes default margins
-    padding-top: 70px; // Adjust this value based on the height of your navbar
+    padding-top: 90px; // Adjust this value based on the height of your navbar
     // Adjust as needed, but remember it's inside the 100vh if box-sizing is border-box
 
     section {
@@ -11,6 +11,8 @@
         height: 100vh; // Adjust the height of sections accordingly
         scroll-snap-align: start; // Changed from center to start to avoid cutting off content under the navbar
         // Any other styles you need
+        text-align: center;
+        max-width: 900px;
     }
 }
 

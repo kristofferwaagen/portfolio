@@ -1,20 +1,25 @@
 import React from 'react';
 import About from './About';
-import Projects from './Projects';
-import BasicExample from './Navbar';
+import Pages from './Pages';
+import Navbar from './Navbar';
+import Intro from './Intro';
+import Contact from './Contact';
 import '../styles/PortfolioPage.scss';
 
 const PortfolioPage = () => (
     <div className="portfolio-page">
-        <BasicExample />
+        <Navbar />
+        <section className="section" id="Home">
+            <Intro />
+        </section>
         <section className="section" id="About">
             <About />
         </section>
         <section className="section" id="Projects">
-            <Projects />
+            <Pages />
         </section>
         <section className="section" id="Contact">
-            Contact
+            <Contact />
         </section>
     </div>
 );
