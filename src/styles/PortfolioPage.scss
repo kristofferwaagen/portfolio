@@ -1,46 +1,18 @@
 // Base styles for the portfolio page
 .portfolio-page {
     text-align: center;
-    padding: 20px;
-}
-
-// Styles specific to the about section
-.about-container {
-    margin: 20px auto;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    max-width: 800px; // Ensures the about section is not too wide
-
-    p {
-        margin: 0 auto;
-        max-width: 600px; // Ensures text readability
-    }
-}
-
-// Styles for the projects section
-.projects-container {
-    .project {
-        margin: 20px auto;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        max-width: 800px; // Consistency in width with the about section
-
-        a {
-            display: inline-block;
-            margin: 10px;
-            text-decoration: none;
-            color: #007bff;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
+    section {
+        height: 100vh;
+        box-sizing: border-box; // Makes sure padding and borders are within the 100vh
+        margin: 0; // Removes default margins
+        padding: 0; // Adjust as needed, but remember it's inside the 100vh if box-sizing is border-box
+        // Any other styles you need
+        scroll-snap-align: center;
     }
 }
 
 // Optional: Smooth scrolling for the entire document
 html {
+    scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
 }
