@@ -15,6 +15,6 @@
 }
 
 html {
-    scroll-snap-type: y proximity; // 'proximity' can be more forgiving than 'mandatory'
+    scroll-snap-type: y mandatory; // 'proximity' can be more forgiving than 'mandatory'
     scroll-behavior: smooth;
 }
