@@ -33,6 +33,17 @@
         text-overflow: ellipsis;
         text-align: center;
     }
+    .text-content span::after {
+        content: '|';
+        animation: blink-caret 1s steps(5, start) infinite;
+        color: #8b37f5; // Set the color of the caret
+    }
+
+    @keyframes blink-caret {
+        50% {
+            opacity: 0;
+        }
+    }
 
     @media (max-width: 768px) {
         img {
