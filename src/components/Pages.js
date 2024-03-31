@@ -17,6 +17,14 @@ function Pages() {
                 'School project where in a team we were tasked to make a Mario type game in Java.',
             repoUrl: 'https://github.com/kristofferwaagen/Mario-Bros',
         },
+        {
+            id: 3,
+            title: 'Fitgen',
+            description:
+                "Project that generates a fit for you, based on your clothing, when you're to lazy too make an outfit yourself. Work in progress",
+            repoUrl: ' https://github.com/kristofferwaagen/Fitgen',
+        },
+
         // Add more projects as needed
     ];
 
