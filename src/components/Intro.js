@@ -4,7 +4,7 @@ import '../styles/ProfilePicture.scss';
 
 const Intro = () => (
     <div className="about-container">
-        <h1 style={{ paddingTop: '25vh' }}>
+        <h1 style={{ paddingTop: '18.2vh' }}>
             Student, Web Developer & Team Leader
         </h1>
         <img src={profilePicture} alt="Profile" />
