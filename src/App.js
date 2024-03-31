@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.scss';
+import './styles/App.scss';
 import InitialLoad from './components/InitialLoad';
 import HeroSection from './components/HeroSection'; // Your main content component
-import Projects from './components/Projects';
+import PortfolioPage from './components/PortfolioPage';
 
 const App = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +20,7 @@ const App = () => {
                 <Router>
                     <Routes>
                         <Route path="/" element={<HeroSection />} />
-                        <Route path="/projects" element={<Projects />} />
+                        <Route path="/projects" element={<PortfolioPage />} />
                     </Routes>
                 </Router>
             )}

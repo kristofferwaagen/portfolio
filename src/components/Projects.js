@@ -1,5 +1,4 @@
 import React from 'react';
-import '../Projects.scss';
 
 function Projects() {
     // Example projects data
