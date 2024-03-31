@@ -1,0 +1,45 @@
+.custom-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    border-bottom: 1px solid #8b37f5; // Purple bottom border
+    background-color: #fff;
+
+    .container,
+    .navbar-collapse,
+    .navbar-nav {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .navbar-brand {
+        color: #212529;
+        font-weight: bold;
+        font-size: 1rem;
+        text-transform: uppercase;
+        transition: color 0.3s ease-in-out;
+        text-decoration: none;
+        margin-right: auto; // Push all nav items to the right
+    }
+
+    .nav-link {
+        color: #212529;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        &.active {
+            color: #8b37f5; // Purple color for the active link
+        }
+
+        &:hover,
+        &:focus {
+            color: #212529; // Maintain the color on hover and focus
+            text-decoration: none; // No underline on hover and focus
+        }
+    }
+}

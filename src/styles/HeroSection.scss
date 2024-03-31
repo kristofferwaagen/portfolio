@@ -4,12 +4,12 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 20px;
     position: relative; // Remains as positioning context
     min-height: 420px; // Use min-height instead of a fixed height
     width: 80%; // More flexible width
     max-width: 600px; // Limits the width on larger screens
     margin: auto; // Centers the container in the parent
+    padding-bottom: 60px;
 
     .dot {
         position: fixed; // Fixed positioning relative to the viewport
@@ -19,13 +19,13 @@
         width: 20px; // Initial width, can be adjusted
         height: 20px; // Initial height, can be adjusted
         border-radius: 50%; // Makes it circular
-        background-color: #999; // Dot color
+        background-color: #8b37f5; // Dot color
         z-index: 9999; // High z-index to ensure it's on top of everything
     }
 
     .text-content {
         position: absolute;
-        bottom: 0; // Closer to the bottom of the container
+        bottom: 35px; // Closer to the bottom of the container
         left: 0;
         right: 0;
         white-space: nowrap;

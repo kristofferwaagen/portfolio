@@ -1,19 +1,21 @@
 import React from 'react';
 import About from './About';
 import Projects from './Projects';
+import BasicExample from './Navbar';
 import '../styles/PortfolioPage.scss';
 
 const PortfolioPage = () => (
     <div className="portfolio-page">
-        {' '}
-        <section className="section">
+        <BasicExample />
+        <section className="section" id="About">
             <About />
         </section>
-        <section className="section">
+        <section className="section" id="Projects">
             <Projects />
         </section>
-        <section className="section">Temp1</section>
-        <section className="section">Temp2</section>
+        <section className="section" id="Contact">
+            Contact
+        </section>
     </div>
 );
 
