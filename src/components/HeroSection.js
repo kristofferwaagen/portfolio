@@ -18,7 +18,7 @@ function HeroSection() {
         onRest: () => setAnimationReady(true),
     });
 
-    const { style, start } = LoadingAnimation(() => navigate('/projects'));
+    const { style, start } = LoadingAnimation(() => navigate('/pages#Home'));
 
     const handleClick = () => {
         setDotVisible(true); // Make the dot visible

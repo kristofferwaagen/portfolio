@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Pages() {
+function Projects() {
     // Example projects data
     const projects = [
         {
@@ -55,4 +55,4 @@ function Pages() {
     );
 }
 
-export default Pages;
+export default Projects;

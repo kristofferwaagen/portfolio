@@ -1,6 +1,6 @@
 import React from 'react';
 import About from './About';
-import Pages from './Pages';
+import Projects from './Projects';
 import NavigationBar from './Navbar';
 import Intro from './Intro';
 import Contact from './Contact';
@@ -16,7 +16,7 @@ const PortfolioPage = () => (
             <About />
         </section>
         <section className="section" id="Projects">
-            <Pages />
+            <Projects />
         </section>
         <section className="section" id="Contact">
             <Contact />
