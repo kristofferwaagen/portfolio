@@ -7,7 +7,7 @@
     position: relative; // Remains as positioning context
     min-height: 420px; // Use min-height instead of a fixed height
     width: 80%; // More flexible width
-    max-width: 600px; // Limits the width on larger screens
+    max-width: 1000px; // Limits the width on larger screens
     margin: auto; // Centers the container in the parent
     padding-bottom: 60px;
 
@@ -29,7 +29,6 @@
         left: 0;
         right: 0;
         white-space: nowrap;
-        overflow: hidden;
         text-overflow: ellipsis;
         text-align: center;
     }

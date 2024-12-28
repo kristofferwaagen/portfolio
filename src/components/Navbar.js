@@ -3,70 +3,61 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import '../styles/Navbar.scss';
 
-const elementVariants = {
-    initial: {
-        y: -50,
-        opacity: 0,
-    },
-    animate: {
-        y: 0,
-        opacity: 1,
-        transition: {
-            duration: 1,
-        },
-    },
-};
+const NavigationBar = () => {
+    const handleNavigate = (id) => () => {
+        if (id === 'Home') {
+            scrollToTop();
+        } else {
+            scrollToSectionWithOffset(id, 50);
+        }
+    };
 
-function NavigationBar() {
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    };
+
+    const scrollToSectionWithOffset = (id, offset) => {
+        const element = document.getElementById(id);
+        if (element) {
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition =
+                elementPosition + window.pageYOffset - offset;
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth',
+            });
+        }
+    };
+
     return (
-        <Navbar
-            expand="lg"
-            className="custom-navbar"
-            as={motion.div}
-            ariants={elementVariants}
-            initial="initial"
-            animate="animate"
-        >
+        <Navbar expand="lg" className="custom-navbar" as={motion.div}>
             <Container>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link
-                            as={motion.a}
-                            href="#Home"
+                            onClick={handleNavigate('Home')}
                             className="nav-link"
-                            variants={elementVariants}
-                            initial="initial"
-                            animate="animate"
                         >
                             Home
                         </Nav.Link>
                         <Nav.Link
-                            as={motion.a}
-                            href="#About"
+                            onClick={handleNavigate('About')}
                             className="nav-link"
-                            variants={elementVariants}
-                            initial="initial"
-                            animate="animate"
                         >
                             About
                         </Nav.Link>
                         <Nav.Link
-                            as={motion.a}
-                            href="#Projects"
+                            onClick={handleNavigate('Projects')}
                             className="nav-link"
-                            variants={elementVariants}
-                            initial="initial"
-                            animate="animate"
                         >
                             Projects
                         </Nav.Link>
                         <Nav.Link
-                            as={motion.a}
-                            href="#Contact"
+                            onClick={handleNavigate('Contact')}
                             className="nav-link"
-                            variants={elementVariants}
-                            initial="initial"
-                            animate="animate"
                         >
                             Contact
                         </Nav.Link>
@@ -75,6 +66,6 @@ function NavigationBar() {
             </Container>
         </Navbar>
     );
-}
+};
 
 export default NavigationBar;

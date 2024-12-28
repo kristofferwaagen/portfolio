@@ -3,7 +3,7 @@ import { useSpring, animated } from 'react-spring';
 import profilePicture from '../assets/profilePicture.png';
 import { TypeAnimation } from 'react-type-animation';
 import { useNavigate } from 'react-router-dom';
-import LoadingAnimation from './LoadingAnimation';
+import LoadingAnimation from './Animation/LoadingAnimation';
 import '../styles/HeroSection.scss';
 
 function HeroSection() {
@@ -33,9 +33,11 @@ function HeroSection() {
                         sequence={[
                             'Hello, my name is Kristoffer',
                             1000,
-                            "I'm a computer science student",
+                            'I hold a bachelor’s degree in Datateknologi',
                             1000,
-                            'Find out more by clicking my picture',
+                            'I am currently pursuing a masters degree in Software development',
+                            1000,
+                            'Find out more by clicking my image',
                             1000,
                         ]}
                         wrapper="span"

@@ -1,22 +1,14 @@
-// Base styles for the portfolio page
+/* Base styles for the portfolio page */
 .portfolio-page {
-    box-sizing: border-box; // Makes sure padding and borders are within the 100vh
-    margin: 0; // Removes default margins
-    padding-top: 90px; // Adjust this value based on the height of your navbar
-    // Adjust as needed, but remember it's inside the 100vh if box-sizing is border-box
-
+    box-sizing: border-box;
+    margin: 0;
+    padding-top: 90px;
     section {
-        padding-top: 40px; // Adjust this value to match the height of your navbar
-        margin-top: -70px;
-        height: 100vh; // Adjust the height of sections accordingly
-        scroll-snap-align: start; // Changed from center to start to avoid cutting off content under the navbar
-        // Any other styles you need
+        padding-top: 0;
+        margin-top: 0;
+        height: 100vh;
         text-align: center;
         max-width: 900px;
+        width: 100%;
     }
-}
-
-html {
-    scroll-snap-type: y mandatory; // 'proximity' can be more forgiving than 'mandatory'
-    scroll-behavior: smooth;
 }
