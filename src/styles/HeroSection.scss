@@ -19,7 +19,7 @@
         width: 20px; // Initial width, can be adjusted
         height: 20px; // Initial height, can be adjusted
         border-radius: 50%; // Makes it circular
-        background-color: #8b37f5; // Dot color
+        background-color: #9e7f68; // Dot color
         z-index: 9999; // High z-index to ensure it's on top of everything
     }
 
@@ -35,7 +35,7 @@
     .text-content span::after {
         content: '|';
         animation: blink-caret 1s steps(5, start) infinite;
-        color: #8b37f5; // Set the color of the caret
+        color: #9e7f68; // Set the color of the caret
     }
 
     @keyframes blink-caret {

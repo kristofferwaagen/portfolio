@@ -19,12 +19,17 @@ const NavigationBar = () => {
         });
     };
 
-    const scrollToSectionWithOffset = (id, offset) => {
+    const scrollToSectionWithOffset = (id, dynamicOffset) => {
         const element = document.getElementById(id);
         if (element) {
+            const navbar = document.querySelector('.custom-navbar'); // Adjust selector as needed
+            const navbarHeight = navbar ? navbar.offsetHeight : 0; // Get the actual height of the navbar
             const elementPosition = element.getBoundingClientRect().top;
             const offsetPosition =
-                elementPosition + window.pageYOffset - offset;
+                elementPosition +
+                window.pageYOffset -
+                navbarHeight -
+                dynamicOffset;
             window.scrollTo({
                 top: offsetPosition,
                 behavior: 'smooth',

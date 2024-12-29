@@ -18,7 +18,7 @@ function HeroSection() {
         onRest: () => setAnimationReady(true),
     });
 
-    const { style, start } = LoadingAnimation(() => navigate('/pages#Home'));
+    const { style, start } = LoadingAnimation(() => navigate('/portfolio'));
 
     const handleClick = () => {
         setDotVisible(true); // Make the dot visible
@@ -33,9 +33,9 @@ function HeroSection() {
                         sequence={[
                             'Hello, my name is Kristoffer',
                             1000,
-                            'I hold a bachelor’s degree in Datateknologi',
+                            'I hold a bachelor’s degree in "Datateknologi"',
                             1000,
-                            'I am currently pursuing a masters degree in Software development',
+                            'I am currently pursuing a master’s degree in Software development',
                             1000,
                             'Find out more by clicking my image',
                             1000,
@@ -53,7 +53,6 @@ function HeroSection() {
             {dotVisible && (
                 <animated.div className="dot" style={style}></animated.div>
             )}{' '}
-            {/* Render dot based on visibility state */}
             <img
                 src={profilePicture}
                 id="HeroImage"

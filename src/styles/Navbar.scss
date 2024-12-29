@@ -5,7 +5,7 @@
     right: 0;
     z-index: 1030;
     border-bottom: 0.2px solid #999; // Purple bottom border
-    background-color: #fff;
+    background-color: #907f71;
     height: 5vh;
 
     .container,
@@ -26,7 +26,7 @@
         &.active,
         &:hover,
         &:focus {
-            color: #8b37f5; // Maintain the color on hover and focus
+            color: #7d301a; // Maintain the color on hover and focus
             text-decoration: none; // No underline on hover and focus
         }
     }
