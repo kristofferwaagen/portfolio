@@ -32,23 +32,25 @@ const imageVariants = {
 
 const Intro = () => (
     <div className="about-container">
-        <motion.h1
-            style={{ paddingTop: '16vh' }}
-            variants={textVariants}
-            initial="initial"
-            animate="animate"
-        >
-            Student, Web Developer & Team Leader
-        </motion.h1>
-
+        <div className="introHeader">
+            <motion.h1
+                variants={textVariants}
+                initial="initial"
+                animate="animate"
+            >
+                Student, Web Developer & Team Leader
+            </motion.h1>
+        </div>
         {/* Image animation */}
-        <motion.img
-            src={profilePicture}
-            alt="Profile"
-            variants={imageVariants}
-            initial="initial"
-            animate="animate"
-        />
+        <div className="image-wrapper">
+            <motion.img
+                src={profilePicture}
+                alt="Profile"
+                variants={imageVariants}
+                initial="initial"
+                animate="animate"
+            />
+        </div>
     </div>
 );
 

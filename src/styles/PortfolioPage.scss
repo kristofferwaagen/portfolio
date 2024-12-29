@@ -1,44 +1,80 @@
 .portfolio-page {
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
     margin: 0;
-    padding-top: 90px;
 
     section {
         padding-top: 0;
         margin-top: 0;
-        height: 100vh;
+        height: 100vh; /* Full height for each section */
         text-align: center;
         max-width: 900px;
         width: 100%;
 
         @media (max-width: 768px) {
-            padding: 20px; // Add padding for smaller screens
-            height: auto; // Allow content to adjust height on smaller screens
+            padding: 20px; /* Add padding for smaller screens */
+            height: auto; /* Adjust height for smaller screens */
         }
     }
 
-    img {
-        width: 350px;
-        height: 350px;
-        border-radius: 50%;
-        object-fit: cover;
-        transition: transform 0.3s ease-in-out;
-        cursor: pointer;
-        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3); // Larger offset, less blur, more opacity
+    .about-container {
+        position: relative; /* Establish positioning context */
+        width: 100%; /* Full width */
+        height: 100vh; /* Full viewport height */
+
+        .image-wrapper {
+            position: absolute; /* Independent positioning */
+            top: 50%; /* Center image vertically */
+            left: 50%; /* Center image horizontally */
+            transform: translate(-50%, -50%); /* Adjust for centering */
+        }
+
+        .introHeader {
+            position: absolute; // Independent positioning
+            top: calc(50% - 220px); // Position below the image
+            left: 50%; // Center image horizontally
+            transform: translate(-50%, -50%); // Adjust for centering
+        }
+
+        img {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+
+            @media (max-width: 1000px) {
+                width: 300px; /* Adjust image size for tablets */
+                height: 300px;
+            }
+
+            @media (max-width: 768px) {
+                width: 250px; /* Adjust image size for mobile */
+                height: 250px;
+            }
+
+            @media (max-width: 480px) {
+                width: 200px; /* Further reduce image size for very small devices */
+                height: 200px;
+            }
+        }
 
         @media (max-width: 1000px) {
-            width: 300px; // Adjust image size for tablets
-            height: 300px;
+            top: calc(50% + 150px); /* Adjust distance for tablets */
+            font-size: 1.1em; /* Slightly smaller font for tablets */
         }
 
         @media (max-width: 768px) {
-            width: 250px; // Adjust image size for mobile
-            height: 250px;
+            top: calc(50% + 125px); /* Adjust distance for mobile */
+            font-size: 1em; /* Adjust font size for mobile */
         }
 
         @media (max-width: 480px) {
-            width: 200px; // Further reduce image size for very small devices
-            height: 200px;
+            top: calc(50% + 100px); /* Adjust distance for very small devices */
+            font-size: 0.9em; /* Small font size for very small devices */
         }
     }
 }
