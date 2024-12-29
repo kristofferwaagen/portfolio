@@ -1,70 +1,103 @@
-# Getting Started with Create React App
+# Portfolio Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to my portfolio website! This site showcases my projects, skills, and experience in software development. Built using modern web technologies, this single-page application (SPA) demonstrates my expertise in creating responsive and interactive user experiences.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+-   [About](#about)
+-   [Features](#features)
+-   [Projects](#projects)
+-   [Getting Started](#getting-started)
+-   [Technologies Used](#technologies-used)
+-   [Contact](#contact)
+-   [License](#license)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## About
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This portfolio website is designed to provide a professional online presence, showcasing my academic background, technical skills, and completed projects. It is optimized for performance, accessibility, and responsiveness across devices.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `npm run build`
+-   **Responsive Design**: Fully optimized for desktop, tablet, and mobile screens.
+-   **Interactive Animations**: Smooth transitions and animations for better user engagement.
+-   **Dynamic Content**: Projects and contact information dynamically displayed.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Projects
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Here are the featured projects included in this portfolio:
 
-### `npm run eject`
+### 1. **Portfolio Website**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+-   **Description**: This website itself, built to showcase my skills and projects.
+-   **Repository**: [GitHub Link](https://github.com/kristofferwaagen/portfolio)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 2. **Poll App**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+-   **Description**: A full-stack application developed as part of a school project to create a SPA website.
+-   **Repository**: [GitHub Link](https://github.com/kristofferwaagen/DAT250-Project-Group-1-FeedApp)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3. **Fitgen**
 
-## Learn More
+-   **Description**: A project that generates outfit suggestions based on uploaded clothing pictures. This project is currently a work in progress.
+-   **Repository**: [GitHub Link](https://github.com/kristofferwaagen/Fitgen)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 4. **Haskell Music Player**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-   **Description**: A school project where we designed and implemented a music player using Haskell.
+-   **Repository**: [GitHub Link](https://github.com/kristofferwaagen/music-player)
 
-### Code Splitting
+### 5. **Mario Bros Spinoff**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+-   **Description**: A collaborative school project to create a Mario-type game in Java.
+-   **Repository**: [GitHub Link](https://github.com/kristofferwaagen/Mario-Bros)
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Getting Started
 
-### Making a Progressive Web App
+### Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+To run this project locally, ensure you have the following installed:
 
-### Advanced Configuration
+-   [Node.js](https://nodejs.org/)
+-   [npm](https://www.npmjs.com/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Installation
 
-### Deployment
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/kristofferwaagen/portfolio.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd portfolio
+    ```
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
+4. Start the development server:
+    ```bash
+    npm start
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## Technologies Used
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   **Frontend**: React.js, React-Router, React-Spring, Framer Motion
+-   **Styling**: SCSS
+-   **Deployment**: Azure Static Web Apps
+-   **Security**: Helmet.js, Content Security Policy (CSP)
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE.md).
