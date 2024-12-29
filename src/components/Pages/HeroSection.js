@@ -3,7 +3,7 @@ import { useSpring, animated } from 'react-spring';
 import profilePicture from '../assets/profilePicture.png';
 import { TypeAnimation } from 'react-type-animation';
 import { useNavigate } from 'react-router-dom';
-import LoadingAnimation from './Animation/LoadingAnimation';
+import LoadingAnimation from '../Animation/LoadingAnimation';
 import '../styles/HeroSection.scss';
 
 function HeroSection() {

@@ -1,9 +1,9 @@
 import React from 'react';
-import About from './About';
-import Projects from './Projects';
-import NavigationBar from './Navbar';
-import Intro from './Intro';
-import Contact from './Contact';
+import About from '../Content/About';
+import Projects from '../Content/Projects';
+import NavigationBar from '../Navbar';
+import Intro from '../Animation/Intro';
+import Contact from '../Content/Contact';
 import '../styles/PortfolioPage.scss';
 
 const PortfolioPage = () => {
