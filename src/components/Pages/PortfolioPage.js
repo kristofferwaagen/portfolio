@@ -4,7 +4,7 @@ import Projects from '../Content/Projects';
 import NavigationBar from '../Navbar';
 import Intro from '../Animation/Intro';
 import Contact from '../Content/Contact';
-import '../styles/PortfolioPage.scss';
+import '../../styles/PortfolioPage.scss';
 
 const PortfolioPage = () => {
     return (

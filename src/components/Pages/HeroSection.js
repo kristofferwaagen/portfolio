@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import profilePicture from '../assets/profilePicture.png';
+import profilePicture from '../../assets/profilePicture.png';
 import { TypeAnimation } from 'react-type-animation';
 import { useNavigate } from 'react-router-dom';
 import LoadingAnimation from '../Animation/LoadingAnimation';
-import '../styles/HeroSection.scss';
+import '../../styles/HeroSection.scss';
 
 function HeroSection() {
     const [animationReady, setAnimationReady] = useState(false);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import profilePicture from '../assets/profilePicture.png';
+import profilePicture from '../../assets/profilePicture.png';
 
 // Text animation variants (up-to-down)
 const textVariants = {
