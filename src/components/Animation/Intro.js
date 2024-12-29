@@ -71,14 +71,13 @@ const Intro = () => (
                 initial="initial"
                 animate="animate"
             >
-                My name is Kristoffer, a computer science master’s student at
-                HVL in Bergen, Norway. I am passionate about software
-                development, cloud computing and system design. Through my
-                studies and spare time, I have built up experience with Java,
-                Python, JavaScript, and full-stack applications. I’m eager to
-                apply my skills in real-world challenges and collaborate on
-                impactful projects. Feel free to explore my portfolio and reach
-                out!
+                My name is Kristoffer, a computer science student at HVL and UiB
+                in Bergen, Norway. I am passionate about software development,
+                cloud computing and system design. Through my studies and spare
+                time, I have built up experience with Java, Python, JavaScript,
+                and full-stack applications. I’m eager to apply my skills in
+                real-world challenges and collaborate on impactful projects.
+                Feel free to explore my portfolio and reach out!
             </motion.div>
         </div>
     </div>
