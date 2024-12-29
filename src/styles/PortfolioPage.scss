@@ -30,7 +30,6 @@
             display: flex;
             flex-wrap: wrap; /* Allow wrapping to the next row */
             justify-content: center; /* Center cards horizontally */
-            align-items: stretch; /* Make cards the same height */
             gap: 1.5rem; /* Space between cards */
         }
 
@@ -77,18 +76,25 @@
             }
         }
 
-        /* Adjustments for responsive design */
+        /* Responsive Design Adjustments */
         @media (max-width: 1000px) {
-            .projects-flex .project-card {
+            .card {
                 flex: 1 1 calc(50% - 1.5rem); /* Two cards per row */
-                max-width: calc(50% - 1.5rem); /* Ensure consistent width */
+                max-width: calc(50% - 1.5rem);
             }
         }
 
         @media (max-width: 768px) {
-            .projects-flex .project-card {
+            .card {
                 flex: 1 1 100%; /* Single card per row */
-                max-width: 100%;
+                max-width: calc(50% - 1.5rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                flex: 1 1 100%; /* Single card per row */
+                max-width: 100%; /* Full width */
             }
         }
     }

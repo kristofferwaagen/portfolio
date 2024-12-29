@@ -8,16 +8,6 @@ const Contact = () => (
                 <div
                     className="card"
                     onClick={() =>
-                        (window.location.href =
-                            'mailto:kristofferwagen@gmail.com')
-                    }
-                    style={{ cursor: 'pointer' }}
-                >
-                    <h2>Contact Me</h2>
-                </div>
-                <div
-                    className="card"
-                    onClick={() =>
                         window.open(
                             'https://www.linkedin.com/in/kristoffer-e-waagen/',
                             '_blank'
@@ -26,6 +16,7 @@ const Contact = () => (
                     style={{ cursor: 'pointer' }}
                 >
                     <h2>LinkedIn</h2>
+                    <p>Feel free to send me a message!</p>
                 </div>
             </div>
         </div>

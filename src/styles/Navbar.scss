@@ -15,11 +15,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
-        @media (max-width: 768px) {
-            flex-direction: row; // Stack navbar items vertically on smaller screens
-            height: auto; // Allow height to adjust dynamically
-        }
     }
 
     .nav-link {
