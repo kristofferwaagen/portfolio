@@ -1,12 +1,17 @@
 .profile-container {
+    position: relative;
+    width: 100%; // Full width
+    height: 100vh; // Full viewport height
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    height: 100vh; // Full viewport height
-    width: 90%; // Flexible width for responsiveness
-    margin: auto; // Centers the container horizontally
+
+    .image-wrapper {
+        position: absolute; // Independent positioning
+        top: 50%; // Center image vertically
+        left: 50%; // Center image horizontally
+        transform: translate(-50%, -50%); // Adjust for centering
+    }
 
     img {
         width: 350px;
@@ -15,12 +20,22 @@
         object-fit: cover;
         transition: transform 0.3s ease-in-out;
         cursor: pointer;
-        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3); // Subtle shadow
-        margin-bottom: 20px; // Consistent spacing between the image and text
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
     }
 
     #HeroImage:hover {
         transform: scale(1.1); // Hover scaling effect
+    }
+
+    .text-content {
+        position: absolute; // Independent positioning
+        top: calc(50% + 200px); // Position below the image
+        left: 50%; // Center horizontally
+        transform: translateX(-50%); // Adjust for centering
+        max-width: 800px; // Restrict text width for readability
+        font-size: 1.2em;
+        text-align: center;
+        line-height: 1.5; // Improve text readability
     }
 
     .dot {
@@ -33,14 +48,6 @@
         border-radius: 50%;
         background-color: #9e7f68; // Dot color
         z-index: 9999; // Ensure it's on top
-    }
-
-    .text-content {
-        max-width: 800px; // Restrict text width for readability
-        font-size: 1.2em;
-        text-align: center;
-        white-space: normal; // Allow text to wrap naturally
-        line-height: 1.5; // Improve text readability
     }
 
     .text-content span::after {
@@ -63,6 +70,7 @@
         }
 
         .text-content {
+            top: calc(50% + 150px); // Adjust distance for tablets
             font-size: 1.1em; // Slightly smaller font for tablets
         }
     }
@@ -75,6 +83,7 @@
         }
 
         .text-content {
+            top: calc(50% + 125px); // Adjust distance for mobile
             font-size: 1em; // Adjust font size for mobile
         }
     }
@@ -87,6 +96,7 @@
         }
 
         .text-content {
+            top: calc(50% + 100px); // Adjust distance for very small devices
             font-size: 0.9em; // Small font size for very small devices
         }
     }

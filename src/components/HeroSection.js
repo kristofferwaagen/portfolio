@@ -8,7 +8,7 @@ import '../styles/HeroSection.scss';
 
 function HeroSection() {
     const [animationReady, setAnimationReady] = useState(false);
-    const [dotVisible, setDotVisible] = useState(false); // Controls dot visibility
+    const [dotVisible, setDotVisible] = useState(false);
     const navigate = useNavigate();
 
     const fadeAndScale = useSpring({
@@ -21,20 +21,21 @@ function HeroSection() {
     const { style, start } = LoadingAnimation(() => navigate('/portfolio'));
 
     const handleClick = () => {
-        setDotVisible(true); // Make the dot visible
-        start(); // Start the animation
+        setDotVisible(true);
+        start();
     };
 
     return (
         <animated.div style={fadeAndScale} className="profile-container">
             {/* Centered Image */}
-            <img
-                src={profilePicture}
-                id="HeroImage"
-                alt="Profile"
-                onClick={handleClick}
-                style={{ cursor: 'pointer' }}
-            />
+            <div className="image-wrapper">
+                <img
+                    src={profilePicture}
+                    id="HeroImage"
+                    alt="Profile"
+                    onClick={handleClick}
+                />
+            </div>
 
             {/* Text below image */}
             {animationReady && (
@@ -52,10 +53,6 @@ function HeroSection() {
                         ]}
                         wrapper="span"
                         speed={60}
-                        style={{
-                            fontSize: '2em',
-                            display: 'inline-block',
-                        }}
                         repeat={Infinity}
                     />
                 </div>
