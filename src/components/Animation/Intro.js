@@ -33,7 +33,7 @@ const imageVariants = {
 const Intro = () => (
     <div className="about-container">
         <motion.h1
-            style={{ paddingTop: '18vh' }}
+            style={{ paddingTop: '16vh' }}
             variants={textVariants}
             initial="initial"
             animate="animate"

@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './styles/App.scss';
 import HeroSection from './components/Pages/HeroSection'; // Main landing page
 import PortfolioPage from './components/Pages/PortfolioPage'; // Portfolio with Navbar
 
