@@ -100,4 +100,4 @@ To run this project locally, ensure you have the following installed:
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project is licensed under the [License](LICENSE.md).
