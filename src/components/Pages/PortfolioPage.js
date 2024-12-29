@@ -1,5 +1,4 @@
 import React from 'react';
-import About from '../Content/About';
 import Projects from '../Content/Projects';
 import NavigationBar from '../Navbar';
 import Intro from '../Animation/Intro';
@@ -12,9 +11,6 @@ const PortfolioPage = () => {
             <NavigationBar />
             <section className="section" id="Home">
                 <Intro />
-            </section>
-            <section className="section" id="About">
-                <About />
             </section>
             <section className="section" id="Projects">
                 <Projects />

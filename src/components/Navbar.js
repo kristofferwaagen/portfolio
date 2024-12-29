@@ -43,20 +43,6 @@ const NavigationBar = () => {
                         </Link>
                         <Link
                             activeClass="active"
-                            to="About"
-                            spy={true}
-                            smooth={true}
-                            offset={-70}
-                            duration={500}
-                            className={`nav-link ${
-                                activeLink === 'About' ? 'active' : ''
-                            }`}
-                            onSetActive={() => setActiveLink('About')}
-                        >
-                            About
-                        </Link>
-                        <Link
-                            activeClass="active"
                             to="Projects"
                             spy={true}
                             smooth={true}
