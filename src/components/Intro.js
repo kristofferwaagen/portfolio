@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import profilePicture from '../assets/profilePicture.png';
-import '../styles/ProfilePicture.scss';
 
 const elementVariants = {
     initial: {
@@ -17,6 +16,16 @@ const elementVariants = {
     },
 };
 
+const imgStyles = {
+    width: '350px',
+    height: '350px',
+    borderRadius: '50%',
+    objectFit: 'cover',
+    transition: 'transform 0.3s ease-in-out',
+    cursor: 'pointer',
+    boxShadow: '0px 6px 10px rgba(0, 0, 0, 0.3)',
+};
+
 const Intro = () => (
     <div className="about-container">
         <motion.h1
@@ -27,7 +36,7 @@ const Intro = () => (
         >
             Student, Web Developer & Team Leader
         </motion.h1>
-        <img src={profilePicture} alt="Profile" />
+        <img src={profilePicture} alt="Profile" style={imgStyles} />
     </div>
 );
 

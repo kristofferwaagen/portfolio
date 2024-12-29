@@ -1,14 +1,18 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './styles/App.scss';
-import HeroSection from './components/HeroSection'; // Your main content component
-import PortfolioPage from './components/PortfolioPage';
+import HeroSection from './components/HeroSection'; // Main landing page
+import PortfolioPage from './components/PortfolioPage'; // Portfolio with Navbar
 
 const App = () => {
     return (
         <div className="App">
             <Router>
                 <Routes>
+                    {/* Route for the landing page */}
                     <Route path="/" element={<HeroSection />} />
+
+                    {/* Route for the portfolio page */}
                     <Route path="/portfolio" element={<PortfolioPage />} />
                 </Routes>
             </Router>

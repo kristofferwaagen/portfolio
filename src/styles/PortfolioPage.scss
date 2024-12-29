@@ -1,8 +1,8 @@
-/* Base styles for the portfolio page */
 .portfolio-page {
     box-sizing: border-box;
     margin: 0;
     padding-top: 90px;
+
     section {
         padding-top: 0;
         margin-top: 0;
@@ -10,5 +10,35 @@
         text-align: center;
         max-width: 900px;
         width: 100%;
+
+        @media (max-width: 768px) {
+            padding: 20px; // Add padding for smaller screens
+            height: auto; // Allow content to adjust height on smaller screens
+        }
+    }
+
+    img {
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3); // Larger offset, less blur, more opacity
+
+        @media (max-width: 1000px) {
+            width: 300px; // Adjust image size for tablets
+            height: 300px;
+        }
+
+        @media (max-width: 768px) {
+            width: 250px; // Adjust image size for mobile
+            height: 250px;
+        }
+
+        @media (max-width: 480px) {
+            width: 200px; // Further reduce image size for very small devices
+            height: 200px;
+        }
     }
 }

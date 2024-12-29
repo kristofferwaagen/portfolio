@@ -1,71 +1,88 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Link } from 'react-scroll'; // For smooth scrolling
 import { motion } from 'framer-motion';
 import '../styles/Navbar.scss';
 
 const NavigationBar = () => {
-    const handleNavigate = (id) => () => {
-        if (id === 'Home') {
-            scrollToTop();
-        } else {
-            scrollToSectionWithOffset(id, 50);
+    const [activeLink, setActiveLink] = useState('Home'); // Default active link is Home
+
+    // Function to handle scroll and check for the top of the page
+    const handleScroll = () => {
+        if (window.scrollY === 0) {
+            setActiveLink('Home'); // Set Home as active only when at the top
         }
     };
 
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
-    };
-
-    const scrollToSectionWithOffset = (id, dynamicOffset) => {
-        const element = document.getElementById(id);
-        if (element) {
-            const navbar = document.querySelector('.custom-navbar'); // Adjust selector as needed
-            const navbarHeight = navbar ? navbar.offsetHeight : 0; // Get the actual height of the navbar
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition =
-                elementPosition +
-                window.pageYOffset -
-                navbarHeight -
-                dynamicOffset;
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth',
-            });
-        }
-    };
+    // Add and remove scroll event listener
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <Navbar expand="lg" className="custom-navbar" as={motion.div}>
             <Container>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link
-                            onClick={handleNavigate('Home')}
-                            className="nav-link"
+                        <Link
+                            activeClass="active"
+                            to="Home"
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={500}
+                            className={`nav-link ${
+                                activeLink === 'Home' ? 'active' : ''
+                            }`}
+                            onSetActive={() => setActiveLink('Home')}
                         >
                             Home
-                        </Nav.Link>
-                        <Nav.Link
-                            onClick={handleNavigate('About')}
-                            className="nav-link"
+                        </Link>
+                        <Link
+                            activeClass="active"
+                            to="About"
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={500}
+                            className={`nav-link ${
+                                activeLink === 'About' ? 'active' : ''
+                            }`}
+                            onSetActive={() => setActiveLink('About')}
                         >
                             About
-                        </Nav.Link>
-                        <Nav.Link
-                            onClick={handleNavigate('Projects')}
-                            className="nav-link"
+                        </Link>
+                        <Link
+                            activeClass="active"
+                            to="Projects"
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={500}
+                            className={`nav-link ${
+                                activeLink === 'Projects' ? 'active' : ''
+                            }`}
+                            onSetActive={() => setActiveLink('Projects')}
                         >
                             Projects
-                        </Nav.Link>
-                        <Nav.Link
-                            onClick={handleNavigate('Contact')}
-                            className="nav-link"
+                        </Link>
+                        <Link
+                            activeClass="active"
+                            to="Contact"
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={500}
+                            className={`nav-link ${
+                                activeLink === 'Contact' ? 'active' : ''
+                            }`}
+                            onSetActive={() => setActiveLink('Contact')}
                         >
                             Contact
-                        </Nav.Link>
+                        </Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     z-index: 1030;
-    border-bottom: 0.2px solid #999; // Purple bottom border
+    border-bottom: 0.2px solid #999;
     background-color: #907f71;
     height: 5vh;
 
@@ -15,6 +15,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @media (max-width: 768px) {
+            flex-direction: column; // Stack navbar items vertically on smaller screens
+            height: auto; // Allow height to adjust dynamically
+        }
     }
 
     .nav-link {
@@ -22,12 +27,22 @@
         padding: 0.5rem 1rem;
         text-decoration: none;
         text-transform: uppercase;
+        font-size: 1rem;
 
         &.active,
         &:hover,
         &:focus {
             color: #7d301a; // Maintain the color on hover and focus
             text-decoration: none; // No underline on hover and focus
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            font-size: 0.9rem; // Slightly smaller font size for mobile
+        }
+
+        @media (max-width: 480px) {
+            font-size: 0.8rem; // Further reduce font size for very small devices
         }
     }
 }

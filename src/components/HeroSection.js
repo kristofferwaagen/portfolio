@@ -8,7 +8,7 @@ import '../styles/HeroSection.scss';
 
 function HeroSection() {
     const [animationReady, setAnimationReady] = useState(false);
-    const [dotVisible, setDotVisible] = useState(false); // New state to control dot visibility
+    const [dotVisible, setDotVisible] = useState(false); // Controls dot visibility
     const navigate = useNavigate();
 
     const fadeAndScale = useSpring({
@@ -22,11 +22,21 @@ function HeroSection() {
 
     const handleClick = () => {
         setDotVisible(true); // Make the dot visible
-        start(); // Then start the animation
+        start(); // Start the animation
     };
 
     return (
         <animated.div style={fadeAndScale} className="profile-container">
+            {/* Centered Image */}
+            <img
+                src={profilePicture}
+                id="HeroImage"
+                alt="Profile"
+                onClick={handleClick}
+                style={{ cursor: 'pointer' }}
+            />
+
+            {/* Text below image */}
             {animationReady && (
                 <div className="text-content">
                     <TypeAnimation
@@ -35,7 +45,7 @@ function HeroSection() {
                             1000,
                             'I hold a bachelor’s degree in "Datateknologi"',
                             1000,
-                            'I am currently pursuing a master’s degree in Software development',
+                            'I am currently pursuing a master’s degree in Software Development',
                             1000,
                             'Find out more by clicking my image',
                             1000,
@@ -50,16 +60,11 @@ function HeroSection() {
                     />
                 </div>
             )}
+
+            {/* Dot animation */}
             {dotVisible && (
                 <animated.div className="dot" style={style}></animated.div>
-            )}{' '}
-            <img
-                src={profilePicture}
-                id="HeroImage"
-                alt="Profile"
-                onClick={handleClick}
-                style={{ cursor: 'pointer' }}
-            />
+            )}
         </animated.div>
     );
 }

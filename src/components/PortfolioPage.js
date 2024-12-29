@@ -6,22 +6,24 @@ import Intro from './Intro';
 import Contact from './Contact';
 import '../styles/PortfolioPage.scss';
 
-const PortfolioPage = () => (
-    <div className="portfolio-page">
-        <NavigationBar />
-        <section className="section" id="Home">
-            <Intro />
-        </section>
-        <section className="section" id="About">
-            <About />
-        </section>
-        <section className="section" id="Projects">
-            <Projects />
-        </section>
-        <section className="section" id="Contact">
-            <Contact />
-        </section>
-    </div>
-);
+const PortfolioPage = () => {
+    return (
+        <div className="portfolio-page">
+            <NavigationBar />
+            <section className="section" id="Home">
+                <Intro />
+            </section>
+            <section className="section" id="About">
+                <About />
+            </section>
+            <section className="section" id="Projects">
+                <Projects />
+            </section>
+            <section className="section" id="Contact">
+                <Contact />
+            </section>
+        </div>
+    );
+};
 
 export default PortfolioPage;
