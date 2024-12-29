@@ -13,7 +13,6 @@
         width: 100%;
 
         @media (max-width: 768px) {
-            padding: 20px; /* Add padding for smaller screens */
             height: auto; /* Adjust height for smaller screens */
         }
     }
@@ -60,11 +59,6 @@
                 width: 200px; /* Further reduce image size for very small devices */
                 height: 200px;
             }
-        }
-
-        @media (max-width: 1000px) {
-            top: calc(50% + 150px); /* Adjust distance for tablets */
-            font-size: 1.1em; /* Slightly smaller font for tablets */
         }
 
         @media (max-width: 768px) {
