@@ -1,0 +1,12 @@
+{
+    "routes": [
+        {
+            "route": "/portfolio",
+            "rewrite": "/index.html"
+        },
+        {
+            "route": "/*",
+            "rewrite": "/index.html"
+        }
+    ]
+}
