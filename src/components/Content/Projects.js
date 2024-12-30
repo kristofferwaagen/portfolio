@@ -95,14 +95,8 @@ function Projects() {
                 {workProjects.map((project) => (
                     <div key={project.id} className="card">
                         <h2>{project.title}</h2>
+                        <h3>{project.company}</h3>
                         <p>{project.description}</p>
-                        <a
-                            href={project.repoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Repository
-                        </a>
                     </div>
                 ))}
             </div>
