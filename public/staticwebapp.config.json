@@ -1,0 +1,25 @@
+{
+    "navigationFallback": {
+        "rewrite": "/index.html",
+        "exclude": [
+            "*.css",
+            "*.scss",
+            "*.js",
+            "*.png",
+            "*.gif",
+            "*.ico",
+            "*.jpg",
+            "*.svg"
+        ]
+    },
+    "routes": [
+        {
+            "route": "/portfolio",
+            "rewrite": "/index.html"
+        },
+        {
+            "route": "/*",
+            "rewrite": "/index.html"
+        }
+    ]
+}
