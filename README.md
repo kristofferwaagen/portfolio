@@ -98,6 +98,12 @@ To run this project locally, ensure you have the following installed:
 
 ---
 
+## Contact
+
+Basic contact possibilities located in the website
+
+---
+
 ## License
 
 This project is licensed under the [License](LICENSE.md).
