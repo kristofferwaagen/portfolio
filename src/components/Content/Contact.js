@@ -43,7 +43,11 @@ const Contact = () => (
                         <img
                             src={linkedIn}
                             alt="LinkedIn"
-                            style={{ width: '36px', height: '36px' }}
+                            style={{
+                                width: '36px',
+                                height: '36px',
+                                paddingTop: '7px',
+                            }}
                         />
                     </div>
                     <p>Feel free to send me a message!</p>
@@ -59,7 +63,11 @@ const Contact = () => (
                         <img
                             src={github}
                             alt="Github"
-                            style={{ width: '36px', height: '36px' }}
+                            style={{
+                                width: '36px',
+                                height: '36px',
+                                paddingTop: '5px',
+                            }}
                         />
                     </div>
                     <p>Check out my profile!</p>
@@ -75,7 +83,11 @@ const Contact = () => (
                         <img
                             src={mail}
                             alt="Mail"
-                            style={{ width: '36px', height: '36px' }}
+                            style={{
+                                width: '36px',
+                                height: '36px',
+                                paddingTop: '5px',
+                            }}
                         />
                     </div>
                     <p>Send it my way!</p>
