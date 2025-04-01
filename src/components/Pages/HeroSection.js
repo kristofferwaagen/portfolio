@@ -44,9 +44,9 @@ function HeroSection() {
                         sequence={[
                             'Hello, my name is Kristoffer',
                             1000,
-                            'I hold a bachelor’s degree in "Datateknologi"',
+                            'I have a bachelor’s degree in "Datateknologi"',
                             1000,
-                            'I am currently pursuing a master’s degree in Software Development',
+                            'I am currently taking a master’s degree in Software Development',
                             1000,
                             'Find out more by clicking my image',
                             1000,

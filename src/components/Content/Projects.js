@@ -7,7 +7,7 @@ function Projects() {
             id: 1,
             title: 'Portfoilo',
             description:
-                'Designed and hosted a responsive portfolio website as a static web application in Azure using ReactJS. Showcased projects and technical skills with a focus on performance and usability.',
+                'Designed and hosted a responsive portfolio website as a static web application in Azure using ReactJS with Sass for styling. Showcased projects and technical skills with a focus on performance and usability.',
             repoUrl: 'https://github.com/kristofferwaagen/portfolio',
         },
         {
@@ -19,21 +19,29 @@ function Projects() {
                 'https://github.com/kristofferwaagen/DAT250-Project-Group-1-FeedApp.',
         },
         {
-            id: 3,
+             id: 3,
+            title: 'Hotelifinder',
+            description:
+                "Developed a web application using ReactJS, Next.js, Java, Spring Boot and Tailwind CSS to enable users to get reccommended hotel bookings, based on the user's preferances, planned activities and travel location.",
+            repoUrl:
+                'https://github.com/DAT251/Hotelifinder',
+        },
+        {
+            id: 4,
             title: 'Fitgen',
             description:
                 'Built a Python-based tool leveraging rembg for image background removal and generated random outfit combinations, showcasing automation and creative problem-solving.',
             repoUrl: 'https://github.com/kristofferwaagen/Fitgen',
         },
         {
-            id: 4,
+            id: 5,
             title: 'Haskell music player',
             description:
                 'School project where we decided what we wanted to make in Haskell. Made a terminal based MP3 player.',
             repoUrl: 'https://github.com/kristofferwaagen/music-player',
         },
         {
-            id: 5,
+            id: 6,
             title: 'Mario bros spinoff',
             description:
                 'School project where in a team we were tasked to make a Mario type game in Java.',
@@ -47,7 +55,7 @@ function Projects() {
             title: 'Quiz App',
             company: 'Yatta AS',
             description:
-                'Built a quiz platform for organizational training at Ya1a using Azure, ReactJS, and MongoDB. Focused on user engagement by implementing responsive design and optimizing backend infrastructure',
+                'Built a quiz platform for organizational training at Yatta using Azure, ReactJS, and MongoDB. Focused on user engagement by implementing responsive design and optimizing backend infrastructure',
         },
         {
             id: 2,

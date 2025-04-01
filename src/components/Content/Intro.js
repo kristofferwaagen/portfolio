@@ -71,7 +71,7 @@ const Intro = () => (
                 initial="initial"
                 animate="animate"
             >
-                My name is Kristoffer, a computer science student at HVL and UiB
+                My name is Kristoffer, a Software Development student at HVL and UiB
                 in Bergen, Norway. I am passionate about software development,
                 cloud computing and system design. Through my studies and spare
                 time, I have built up experience with Java, Python, JavaScript,
