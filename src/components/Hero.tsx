@@ -82,7 +82,7 @@ export default function Hero({ setCurrentSection }: HeroProps) {
                 <div className="help-content">
                   <div className="help-text-content">
                     <h4>Don't worry!</h4>
-                    <p>This is just a fun way to introduce myself with an animation. Scroll down to explore more about me, my projects and skills!</p>
+                    <p>This is just a fun way to introduce myself Scroll down to explore more about me, my projects and skills!</p>
                   </div>
                 </div>
               )}

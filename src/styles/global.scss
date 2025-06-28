@@ -4060,4 +4060,52 @@ body.games-open {
 
 // Dark theme override for help content
 
+// Games panel styles
+.games-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--background-color) 0%, var(--background-color-secondary) 100%);
+  backdrop-filter: blur(20px);
+  border-left: 2px solid var(--border-color);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 2rem;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+  
+  // Hint button styles
+  .hint-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: 2px solid var(--accent-color);
+    border-radius: 25px;
+    padding: 12px 20px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    margin: 0 auto;
+    display: block;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+    
+    @media (max-width: 768px) {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+    }
+  }
+}
+
 

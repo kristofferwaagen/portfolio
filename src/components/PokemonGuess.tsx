@@ -90,6 +90,7 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [hintUsed, setHintUsed] = useState(false);
 
   // Check if device is mobile and if in fullscreen mode
   useEffect(() => {
@@ -179,6 +180,46 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
     setMessage('');
     setShowSuggestions(false);
     setSuggestions([]);
+    setHintUsed(false);
+  };
+
+  // HINT: Reveal a random unrevealed category
+  const revealCategory = () => {
+    if (gameOver || loading || !targetPokemon || hintUsed) return;
+    
+    // Check if hint was already used
+    if (hintUsed) {
+      setMessage('You have already used your hint for this game!');
+      setTimeout(() => setMessage(''), 2000);
+      return;
+    }
+    
+    const categories = [
+      { key: 'type1', label: 'Type 1', value: targetPokemon.type1 },
+      { key: 'type2', label: 'Type 2', value: targetPokemon.type2 },
+      { key: 'species', label: 'Species', value: targetPokemon.species },
+      { key: 'colour', label: 'Colour', value: targetPokemon.colour },
+      { key: 'evolution_stage', label: 'Evolution Stage', value: getEvolutionStage(targetPokemon.name, targetPokemon.evolution_line).toString() },
+      { key: 'height', label: 'Height (m)', value: targetPokemon.height_m.toString() },
+      { key: 'weight', label: 'Weight (kg)', value: targetPokemon.weight_kg.toString() },
+    ];
+    // Find which categories have not been revealed yet (not guessed correctly)
+    const revealed = new Set();
+    guesses.forEach(g => {
+      Object.entries(g).forEach(([cat, state]) => {
+        if (state === 'correct') revealed.add(cat);
+      });
+    });
+    const unrevealed = categories.filter(cat => !revealed.has(cat.key));
+    if (unrevealed.length === 0) {
+      setMessage('All categories already revealed!');
+      setTimeout(() => setMessage(''), 2000);
+      return;
+    }
+    const randomCat = unrevealed[Math.floor(Math.random() * unrevealed.length)];
+    setMessage(`Hint: ${randomCat.label} is "${randomCat.value}"`);
+    setHintUsed(true);
+    setTimeout(() => setMessage(''), 4000);
   };
 
   const getCategoryColor = (state: CategoryState) => {
@@ -757,6 +798,7 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
             fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.9rem' : '1rem',
             fontWeight: 'bold',
             cursor: 'pointer',
+            marginRight: '12px',
             marginBottom: isFullscreen ? '1rem' : '0.5rem',
             transition: 'all 0.2s ease'
           }}
@@ -767,7 +809,38 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
             e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          New
+          New Pokemon
+        </button>
+        <button
+          onClick={revealCategory}
+          disabled={hintUsed}
+          style={{
+            background: hintUsed ? 'var(--border-color)' : 'transparent',
+            border: '2px solid var(--accent-color)',
+            color: hintUsed ? 'var(--text-color-secondary)' : 'var(--accent-color)',
+            padding: isFullscreen ? '16px 32px' : isMobile ? '10px 20px' : '12px 24px',
+            borderRadius: '12px',
+            fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.9rem' : '1rem',
+            cursor: hintUsed ? 'not-allowed' : 'pointer',
+            transition: 'all 0.2s ease',
+            fontWeight: 'bold',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            opacity: hintUsed ? 0.6 : 1
+          }}
+          onMouseEnter={(e) => {
+            if (!hintUsed) {
+              e.currentTarget.style.background = 'rgba(184, 169, 201, 0.1)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!hintUsed) {
+              e.currentTarget.style.background = hintUsed ? 'var(--border-color)' : 'transparent';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }
+          }}
+        >
+          {hintUsed ? '🔒 Hint Used' : '💡 Reveal Category'}
         </button>
       </div>
       {(gameOver || gameWon) && (

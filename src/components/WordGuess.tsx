@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 
 interface WordGuessProps {
   onGameOver: (score: number) => void;
+  onHint?: (revealLetter: () => void) => void;
 }
 
 const WORD_LENGTH = 5;
@@ -47,7 +48,7 @@ function evaluateGuess(target: string, guess: string): LetterState[] {
   return result;
 }
 
-export default function WordGuess({ onGameOver }: WordGuessProps) {
+export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
   const [words, setWords] = useState<string[]>([]);
   const [targetWord, setTargetWord] = useState('');
   const [currentGuess, setCurrentGuess] = useState('');
@@ -60,6 +61,7 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [hintUsed, setHintUsed] = useState(false);
 
   // Check if device is mobile and if in fullscreen mode
   useEffect(() => {
@@ -217,12 +219,48 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
     setGameWon(false);
     setMessage('');
     setShowSuggestions(false);
+    setHintUsed(false);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
     setCurrentGuess(suggestion);
     setShowSuggestions(false);
   };
+
+  // HINT: Reveal a random unrevealed letter
+  const revealLetter = () => {
+    if (gameOver || loading || hintUsed) return;
+    
+    // Check if hint was already used
+    if (hintUsed) {
+      setMessage('You have already used your hint for this game!');
+      setTimeout(() => setMessage(''), 2000);
+      return;
+    }
+    
+    // Find indices of unrevealed letters
+    const revealed = new Set(guesses.join('').split(''));
+    const unrevealedIndices = targetWord
+      .split('')
+      .map((char, idx) => (revealed.has(char) ? null : idx))
+      .filter(idx => idx !== null) as number[];
+    if (unrevealedIndices.length === 0) {
+      setMessage('All letters already revealed!');
+      setTimeout(() => setMessage(''), 2000);
+      return;
+    }
+    const randomIdx = unrevealedIndices[Math.floor(Math.random() * unrevealedIndices.length)];
+    const letter = targetWord[randomIdx];
+    setMessage(`Hint: The letter "${letter}" is in position ${randomIdx + 1}`);
+    setHintUsed(true);
+    setTimeout(() => setMessage(''), 4000);
+  };
+
+  // Expose hint function to parent
+  useEffect(() => {
+    if (onHint) onHint(revealLetter);
+    // eslint-disable-next-line
+  }, [onHint, guesses, targetWord, gameOver, loading]);
 
   const renderCell = (letter: string, state: LetterState, index: number) => {
     const getBackgroundColor = () => {
@@ -326,7 +364,7 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
       display: 'flex',
       flexDirection: isMobile ? 'column' : 'row',
       gap: isFullscreen ? '3rem' : isMobile ? '1rem' : '2rem',
-      alignItems: 'flex-start',
+      alignItems: 'center',
       justifyContent: 'center'
     }}>
       {/* Game Section - Centered */}
@@ -340,35 +378,6 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
         width: isMobile ? '100%' : 'auto',
         margin: isMobile ? '0' : '0 auto'
       }}>
-        {/* New Word Button - Positioned at the top */}
-        <div style={{ marginBottom: isFullscreen ? '2rem' : isMobile ? '1rem' : '1.5rem' }}>
-          <button
-            onClick={handleRestart}
-            style={{
-              background: 'var(--accent-color)',
-              color: 'var(--background-color)',
-              border: 'none',
-              padding: isFullscreen ? '16px 32px' : isMobile ? '10px 20px' : '12px 24px',
-              borderRadius: '12px',
-              fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.9rem' : '1rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-            }}
-          >
-            🎯 New Word
-          </button>
-        </div>
-
         {/* Game Grid */}
         <div style={{ 
           marginBottom: isFullscreen ? '2rem' : isMobile ? '1rem' : '1.5rem',
@@ -480,13 +489,80 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
               </div>
             </div>
 
-            {/* Suggestions and Instructions Section */}
+            {/* Mobile Button Row */}
+            <div style={{
+              display: 'flex',
+              gap: '0.5rem',
+              justifyContent: 'center',
+              marginTop: '0.5rem'
+            }}>
+              <button
+                onClick={handleRestart}
+                style={{
+                  background: 'var(--accent-color)',
+                  color: 'var(--background-color)',
+                  border: 'none',
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  fontSize: '0.8rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                }}
+              >
+                New Word
+              </button>
+
+              <button
+                onClick={revealLetter}
+                disabled={hintUsed}
+                style={{
+                  background: hintUsed ? 'var(--border-color)' : 'transparent',
+                  border: '2px solid var(--accent-color)',
+                  color: hintUsed ? 'var(--text-color-secondary)' : 'var(--accent-color)',
+                  padding: isFullscreen ? '16px 32px' : '12px 24px',
+                  borderRadius: '12px',
+                  fontSize: isFullscreen ? '1.2rem' : '1rem',
+                  cursor: hintUsed ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s ease',
+                  fontWeight: 'bold',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                  opacity: hintUsed ? 0.6 : 1
+                }}
+                onMouseEnter={(e) => {
+                  if (!hintUsed) {
+                    e.currentTarget.style.background = 'rgba(184, 169, 201, 0.1)';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!hintUsed) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }
+                }}
+              >
+                {hintUsed ? '🔒 Hint Used' : '💡 Reveal Letter'}
+              </button>
+            </div>
+
+            {/* Mobile Suggestions and Instructions */}
             <div style={{
               display: 'flex',
               flexDirection: 'column',
               gap: '0.5rem',
               minWidth: '150px',
-              maxWidth: '200px'
+              maxWidth: '200px',
+              marginTop: '0.5rem'
             }}>
               {/* Word Suggestions */}
               {showSuggestions && (
@@ -588,29 +664,96 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
           gap: '1rem',
           minWidth: isFullscreen ? '300px' : '250px',
           maxWidth: isFullscreen ? '400px' : '300px',
-          alignSelf: 'flex-start',
+          alignSelf: 'center',
           flex: '0 0 auto'
         }}>
-          {/* Suggestion Toggle */}
-          <div style={{ marginBottom: '1rem' }}>
+          {/* Button Row - New Word and Suggestions at same level */}
+          <div style={{ 
+            display: 'flex', 
+            gap: '1rem', 
+            justifyContent: 'center',
+            marginBottom: '1rem',
+            flexWrap: 'wrap'
+          }}>
+            {/* New Word Button */}
+            <button
+              onClick={handleRestart}
+              style={{
+                background: 'var(--accent-color)',
+                color: 'var(--background-color)',
+                border: 'none',
+                padding: isFullscreen ? '16px 32px' : '12px 24px',
+                borderRadius: '12px',
+                fontSize: isFullscreen ? '1.2rem' : '1rem',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+              }}
+            >
+              New Word
+            </button>
+
+            {/* Hint Button */}
+            <button
+              onClick={revealLetter}
+              disabled={hintUsed}
+              style={{
+                background: hintUsed ? 'var(--border-color)' : 'transparent',
+                border: '2px solid var(--accent-color)',
+                color: hintUsed ? 'var(--text-color-secondary)' : 'var(--accent-color)',
+                padding: isFullscreen ? '16px 32px' : '12px 24px',
+                borderRadius: '12px',
+                fontSize: isFullscreen ? '1.2rem' : '1rem',
+                cursor: hintUsed ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s ease',
+                fontWeight: 'bold',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                opacity: hintUsed ? 0.6 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (!hintUsed) {
+                  e.currentTarget.style.background = 'rgba(184, 169, 201, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!hintUsed) {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }
+              }}
+            >
+              {hintUsed ? '🔒 Hint Used' : '💡 Reveal Letter'}
+            </button>
+
+            {/* Suggestion Toggle */}
             <button
               onClick={() => setShowSuggestions(!showSuggestions)}
               style={{
                 background: showSuggestions ? 'var(--accent-color)' : 'transparent',
                 border: '2px solid var(--accent-color)',
                 color: showSuggestions ? 'var(--background-color)' : 'var(--accent-color)',
-                padding: isFullscreen ? '0.75rem 1.5rem' : '0.75rem 1.5rem',
-                borderRadius: '8px',
-                fontSize: isFullscreen ? '1rem' : '1rem',
+                padding: isFullscreen ? '16px 32px' : '12px 24px',
+                borderRadius: '12px',
+                fontSize: isFullscreen ? '1.2rem' : '1rem',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
-                fontWeight: '600',
+                fontWeight: 'bold',
                 boxShadow: showSuggestions ? '0 4px 8px rgba(184, 169, 201, 0.3)' : '0 2px 4px rgba(0,0,0,0.1)'
               }}
               onMouseEnter={(e) => {
                 if (!showSuggestions) {
                   e.currentTarget.style.background = 'rgba(184, 169, 201, 0.1)';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }
               }}
               onMouseLeave={(e) => {
@@ -702,7 +845,7 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
             </div>
           )}
 
-          {/* Instructions for Desktop */}
+          {/* Instructions for Desktop - Aligned with game grid top */}
           <div style={{ 
             fontSize: isFullscreen ? '0.9rem' : '0.8rem', 
             color: 'var(--text-color-secondary)', 
@@ -710,7 +853,8 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
             background: 'var(--card-background)',
             borderRadius: '8px',
             border: '1px solid var(--border-color)',
-            textAlign: 'left'
+            textAlign: 'left',
+            marginTop: '0'
           }}>
             <div style={{ fontWeight: '600', marginBottom: '0.5rem' }}>How to Play:</div>
             <div>• Type letters to guess the 5-letter word</div>
@@ -746,58 +890,6 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
           zIndex: 100
         }}>
           {message}
-        </div>
-      )}
-
-      {/* Game Over Modal */}
-      {(gameOver || gameWon) && (
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'var(--card-background)',
-          padding: isMobile ? '1.5rem' : '2rem',
-          borderRadius: '15px',
-          textAlign: 'center',
-          border: '1px solid var(--border-color)',
-          backdropFilter: 'blur(10px)',
-          zIndex: 10,
-          boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-          maxWidth: isMobile ? '90vw' : '400px',
-          width: isMobile ? '90vw' : '400px'
-        }}>
-          <h3 style={{ 
-            marginBottom: '1rem',
-            fontSize: isMobile ? '1.2rem' : '1.5rem'
-          }}>
-            {gameWon ? '🎉 Congratulations!' : '😔 Game Over'}
-          </h3>
-          <p style={{ 
-            marginBottom: '1.5rem',
-            fontSize: isMobile ? '0.9rem' : '1rem'
-          }}>
-            {gameWon 
-              ? `You found the word in ${guesses.length} tries!` 
-              : `The word was: ${targetWord}`
-            }
-          </p>
-          <button 
-            onClick={handleRestart}
-            style={{
-              background: 'var(--primary-color)',
-              color: 'var(--background-color)',
-              border: 'none',
-              padding: isMobile ? '0.6rem 1.2rem' : '0.75rem 1.5rem',
-              borderRadius: '25px',
-              cursor: 'pointer',
-              fontWeight: '600',
-              transition: 'all 0.2s ease',
-              fontSize: isMobile ? '0.9rem' : '1rem'
-            }}
-          >
-            Play Again
-          </button>
         </div>
       )}
     </div>
