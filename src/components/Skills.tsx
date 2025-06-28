@@ -3,7 +3,7 @@ import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 
 interface SkillsProps {
-  setCurrentSection: (section: string) => void
+  _setCurrentSection: (section: string) => void
 }
 
 interface Skill {
@@ -13,7 +13,7 @@ interface Skill {
   icon?: string
 }
 
-export default function Skills({ setCurrentSection }: SkillsProps) {
+export default function Skills({ _setCurrentSection }: SkillsProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
 
@@ -109,7 +109,7 @@ export default function Skills({ setCurrentSection }: SkillsProps) {
                 <div className="skills-list">
                   {skills
                     .filter(skill => skill.category === category)
-                    .map((skill, index) => (
+                    .map((skill) => (
                       <motion.div 
                         key={skill.name}
                         className="skill-item"

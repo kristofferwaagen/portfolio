@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll } from 'framer-motion'
 import { ThemeProvider } from './contexts/ThemeContext'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -26,7 +26,6 @@ function AppContent() {
         requestAnimationFrame(() => {
           const sections = ['hero', 'about', 'projects', 'skills', 'contact']
           const scrollPosition = window.scrollY + window.innerHeight / 3 // Changed from /2 to /3 for better detection
-          let currentSectionFound = false
 
           for (const sectionId of sections) {
             const element = document.getElementById(sectionId)
@@ -40,7 +39,6 @@ function AppContent() {
                 if (currentSection !== sectionId) {
                   setCurrentSection(sectionId)
                 }
-                currentSectionFound = true
                 break
               }
             }

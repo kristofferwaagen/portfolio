@@ -1,7 +1,8 @@
+import React from 'react';
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
-import profilePicture from '/images/profilePicture.png'
+import profilePicture from '/images/profilePicture.webp'
 
 interface AboutProps {
   setCurrentSection: (section: string) => void

@@ -3,7 +3,7 @@ import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 
 interface AboutProps {
-  setCurrentSection: (section: string) => void
+  _setCurrentSection: (section: string) => void
 }
 
 interface Project {
@@ -14,7 +14,7 @@ interface Project {
   company?: string
 }
 
-export default function Projects({ setCurrentSection }: AboutProps) {
+export default function Projects({ _setCurrentSection }: AboutProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
@@ -173,7 +173,7 @@ export default function Projects({ setCurrentSection }: AboutProps) {
           </motion.div>
 
           <div className="projects-grid">
-            {currentProjects.map((project, index) => (
+            {currentProjects.map((project) => (
               <motion.div
                 key={project.id}
                 className="project-card"

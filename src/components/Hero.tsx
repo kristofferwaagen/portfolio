@@ -10,7 +10,6 @@ interface HeroProps {
 export default function Hero({ setCurrentSection }: HeroProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const [terminalComplete, setTerminalComplete] = useState(false)
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -46,7 +45,7 @@ export default function Hero({ setCurrentSection }: HeroProps) {
   }
 
   const handleTerminalComplete = () => {
-    setTerminalComplete(true)
+    // Terminal animation completed
   }
 
   const handleScrollToNext = () => {
