@@ -95,7 +95,7 @@ function AppContent() {
         <About setCurrentSection={handleSectionChange} />
         <Projects />
         <Skills />
-        <Contact onOpenGames={openGames} />
+        <Contact />
       </main>
 
       {/* Games Panel */}
