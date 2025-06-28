@@ -42,7 +42,7 @@ export default function About({ setCurrentSection }: AboutProps) {
     },
     {
       year: "Jun 2025 - Aug 2025",
-      title: "Software Intern at DeepOcean AS",
+      title: "Summer Intern at DeepOcean AS",
       description: "Developed a prototype for ROV planning in Three.js.",
       type: "work"
     },
@@ -54,13 +54,13 @@ export default function About({ setCurrentSection }: AboutProps) {
     },
     {
       year: "Jun 2024 - Aug 2024",
-      title: "Software Development Intern at Yatta AS",
+      title: "Summer Intern at Yatta AS",
       description: "Developed a quiz platform for businesses to create and manage quizzes for their employees using React, Node.js, and MongoDB.",
       type: "work"
     },
     {
       year: "Jun 2023 - Aug 2023",
-      title: "Software Development Intern at Yatta AS",
+      title: "Summer Intern at Yatta AS",
       description: "Designed a prototype for LLM-based chatbot for bettering fish health in aquaculture using Microsoft Fabric.",
       type: "work"
     },

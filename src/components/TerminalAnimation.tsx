@@ -40,17 +40,19 @@ export default function TerminalAnimation({ onComplete }: TerminalAnimationProps
   }, [onComplete]);
 
   return (
-    <div className="terminal-window">
-      <div className="terminal-header">
-        <span className="dot red" />
-        <span className="dot yellow" />
-        <span className="dot green" />
-        <span className="terminal-title">node</span>
+    <div className="terminal-container">
+      <div className="terminal-window">
+        <div className="terminal-header">
+          <span className="dot red" />
+          <span className="dot yellow" />
+          <span className="dot green" />
+          <span className="terminal-title">node</span>
+        </div>
+        <pre className="terminal-body">
+          {displayed}
+          <span className="terminal-cursor">&#9608;</span>
+        </pre>
       </div>
-      <pre className="terminal-body">
-        {displayed}
-        <span className="terminal-cursor">&#9608;</span>
-      </pre>
     </div>
   );
 } 
