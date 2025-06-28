@@ -80,6 +80,7 @@ export default function Hero({ setCurrentSection }: HeroProps) {
         >
           <div className="scroll-arrow" />
           <span>Scroll to explore</span>
+          <span>P.S. Scroll down to Contact for a surprise in the navbar! (after reading the website's content of course)</span>
         </motion.div>
       </div>
     </section>

@@ -87,7 +87,7 @@ export default function About({ setCurrentSection }: AboutProps) {
   const interests = [
     { icon: "🏐", label: "Volleyball", description: "Have played and coached volleyball for 3 years.", color: "#FF6B6B" },
     { icon: "🎮", label: "Gaming", description: "Spend some of my spare time gaming.", color: "#4ECDC4" },
-    { icon: "🏋🏻‍♀️", label: "Training", description: "Like to train, especially during the weekends.", color: "#45B7D1" }
+    { icon: "🏋🏻‍♀️", label: "Weight Training", description: "Like to exercise, it's important to stay fit!", color: "#45B7D1" }
   ]
 
   const handleViewSkills = () => {
@@ -114,9 +114,9 @@ export default function About({ setCurrentSection }: AboutProps) {
 
           <motion.div className="about-who-i-am" variants={itemVariants}>
             <div className="about-text">
-              <h3>Who I Am</h3>
+              <h3>Who am I?</h3>
               <p>
-              Hey! My name is Kristoffer, a software development student at HVL and UiB in Bergen, Norway.
+              Hey! My name is Kristoffer, a 23 year old software development student at HVL and UiB in Bergen, Norway.
               I enjoy building things that work well and scale, especially using cloud tech, system design, and full-stack tools.
               I've picked up experience with Java, Python, and JavaScript through studies and side projects, and I'm always up for learning something new.
               Right now, I'm looking for chances to apply what I've learned in real-world projects, and to work with people who care about building impactful and meaningful software.

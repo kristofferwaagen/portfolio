@@ -145,7 +145,7 @@ export default function Projects() {
             <div className="title-underline" />
             <p className="section-subtitle">
               Here are some of the projects I've worked on. Each one represents 
-              a unique challenge and learning experience.
+              an unique challenge and learning experience.
             </p>
           </motion.div>
 

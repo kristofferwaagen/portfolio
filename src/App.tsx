@@ -6,18 +6,28 @@ import About from './components/About'
 import Projects from './components/Projects'
 import Skills from './components/Skills'
 import Contact from './components/Contact'
+import Games from './components/Games'
 import Navigation from './components/Navigation'
 import './styles/global.scss'
 
 function AppContent() {
   const [currentSection, setCurrentSection] = useState('hero')
+  const [isGamesOpen, setIsGamesOpen] = useState(false)
   const { scrollYProgress } = useScroll()
 
   const handleSectionChange = useCallback((section: string) => {
     setCurrentSection(section)
   }, [])
 
-  // Scroll-based section detection
+  const openGames = useCallback(() => {
+    setIsGamesOpen(true)
+  }, [])
+
+  const closeGames = useCallback(() => {
+    setIsGamesOpen(false)
+  }, [])
+
+  // Scroll-based section detection (for nav highlight, etc)
   useEffect(() => {
     let ticking = false
 
@@ -25,7 +35,7 @@ function AppContent() {
       if (!ticking) {
         requestAnimationFrame(() => {
           const sections = ['hero', 'about', 'projects', 'skills', 'contact']
-          const scrollPosition = window.scrollY + window.innerHeight / 3 // Changed from /2 to /3 for better detection
+          const scrollPosition = window.scrollY + window.innerHeight / 3
 
           for (const sectionId of sections) {
             const element = document.getElementById(sectionId)
@@ -33,8 +43,6 @@ function AppContent() {
               const { offsetTop, offsetHeight } = element
               const sectionStart = offsetTop
               const sectionEnd = offsetTop + offsetHeight
-              
-              // More precise section detection with buffer
               if (scrollPosition >= sectionStart - 100 && scrollPosition < sectionEnd - 100) {
                 if (currentSection !== sectionId) {
                   setCurrentSection(sectionId)
@@ -43,25 +51,20 @@ function AppContent() {
               }
             }
           }
-          
           ticking = false
         })
         ticking = true
       }
     }
-
-    // Initial section detection on page load
     const detectInitialSection = () => {
       const sections = ['hero', 'about', 'projects', 'skills', 'contact']
       const scrollPosition = window.scrollY + window.innerHeight / 3
-
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId)
         if (element) {
           const { offsetTop, offsetHeight } = element
           const sectionStart = offsetTop
           const sectionEnd = offsetTop + offsetHeight
-          
           if (scrollPosition >= sectionStart - 100 && scrollPosition < sectionEnd - 100) {
             setCurrentSection(sectionId)
             break
@@ -69,10 +72,7 @@ function AppContent() {
         }
       }
     }
-
-    // Detect initial section on mount
     setTimeout(detectInitialSection, 100)
-
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [currentSection])
@@ -87,7 +87,7 @@ function AppContent() {
   return (
     <div className="app">
       {/* Navigation */}
-      <Navigation currentSection={currentSection} setCurrentSection={handleSectionChange} />
+      <Navigation currentSection={currentSection} setCurrentSection={handleSectionChange} onOpenGames={openGames} />
 
       {/* Main Content */}
       <main className="main-content">
@@ -95,8 +95,11 @@ function AppContent() {
         <About setCurrentSection={handleSectionChange} />
         <Projects />
         <Skills />
-        <Contact />
+        <Contact onOpenGames={openGames} />
       </main>
+
+      {/* Games Panel */}
+      <Games isOpen={isGamesOpen} onClose={closeGames} />
 
       {/* Scroll Progress Indicator */}
       {memoizedScrollProgress}

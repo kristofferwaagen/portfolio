@@ -17,15 +17,15 @@ export default function Skills() {
     // Programming Languages
     { name: "Python", level: "Intermediate", category: "Programming Languages" },
     { name: "Java", level: "Intermediate", category: "Programming Languages" },
-    { name: "Haskell", level: "Intermediate", category: "Programming Languages" },
+    { name: "Haskell", level: "Beginner", category: "Programming Languages" },
     { name: "JavaScript", level: "Beginner", category: "Programming Languages" },
     
     // Frontend Frameworks
-    { name: "ReactJS", level: "Intermediate", category: "Frontend Frameworks" },
+    { name: "ReactJS", level: "Beginner", category: "Frontend Frameworks" },
     { name: "Vue.js", level: "Beginner", category: "Frontend Frameworks" },
     
     // Backend & Runtime
-    { name: "Node.js", level: "Intermediate", category: "Backend & Runtime" },
+    { name: "Node.js", level: "Beginner", category: "Backend & Runtime" },
     { name: "Spring Boot", level: "Beginner", category: "Backend & Runtime" },
     
     // Databases

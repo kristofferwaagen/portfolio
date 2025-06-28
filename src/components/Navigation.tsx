@@ -4,6 +4,7 @@ import { useTheme } from '../contexts/ThemeContext'
 interface NavigationProps {
   currentSection: string
   setCurrentSection: (section: string) => void
+  onOpenGames: () => void
 }
 
 const navItems = [
@@ -22,7 +23,15 @@ const MoonIcon = () => (
   <svg className="moon-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
 )
 
-export default function Navigation({ currentSection, setCurrentSection }: NavigationProps) {
+const GamesIcon = () => (
+  <svg className="games-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="6" width="20" height="12" rx="2" ry="2"/>
+    <line x1="6" y1="12" x2="10" y2="12"/>
+    <line x1="8" y1="10" x2="8" y2="14"/>
+  </svg>
+)
+
+export default function Navigation({ currentSection, setCurrentSection, onOpenGames }: NavigationProps) {
   const { theme, toggleTheme } = useTheme()
 
   const scrollToSection = (sectionId: string) => {
@@ -78,6 +87,24 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
               </motion.button>
             </motion.li>
           ))}
+          
+          {/* Games Button - Only visible when contact section is active */}
+          {currentSection === 'contact' && (
+            <motion.button
+              className="games-nav-button"
+              onClick={onOpenGames}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+              aria-label="Open Games"
+            >
+              <GamesIcon />
+              <span>Games</span>
+            </motion.button>
+          )}
           
           <motion.button
             className="theme-toggle"

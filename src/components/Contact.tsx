@@ -1,10 +1,14 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import githubIcon from '/images/github.png'
 import linkedinIcon from '/images/linkedin.png'
 
-export default function Contact() {
+interface ContactProps {
+  onOpenGames: () => void;
+}
+
+export default function Contact({ onOpenGames }: ContactProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
   const [showCaptcha, setShowCaptcha] = useState(false)
@@ -105,7 +109,11 @@ Best regards,
   ]
 
   return (
-    <section id="contact" className="contact" ref={ref}>
+    <section 
+      id="contact" 
+      className="contact" 
+      ref={ref}
+    >
       <div className="contact-container">
         <motion.div
           className="contact-content"
