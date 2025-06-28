@@ -46,16 +46,18 @@ export default function TerminalAnimation({ onComplete }: TerminalAnimationProps
           <span className="dot red" />
           <span className="dot yellow" />
           <span className="dot green" />
-          <span className="terminal-title">node</span>
+          <span className="terminal-title">Portfolio</span>
         </div>
-        <pre className="terminal-body">
-          {displayed}
-          <span className="terminal-cursor">&#9608;</span>
-          {/* Invisible text to maintain full width */}
-          <span style={{ visibility: 'hidden', position: 'absolute', pointerEvents: 'none' }}>
-            {message}
-          </span>
-        </pre>
+        <div className="terminal-body-container">
+          <pre className="terminal-body">
+            {displayed}
+            <span className="terminal-cursor">&#9608;</span>
+            {/* Invisible text to maintain full width */}
+            <span style={{ visibility: 'hidden', position: 'absolute', pointerEvents: 'none' }}>
+              {message}
+            </span>
+          </pre>
+        </div>
       </div>
     </div>
   );

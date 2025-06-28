@@ -138,17 +138,19 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
   const [isPaused, setIsPaused] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const gameLoopRef = useRef<number | undefined>(undefined);
   const lastTimeRef = useRef(0);
 
-  // Check if in fullscreen mode
+  // Check if in fullscreen mode and mobile
   useEffect(() => {
-    const checkFullscreen = () => {
+    const checkScreenSize = () => {
       setIsFullscreen(window.innerWidth >= 1200 && window.innerHeight >= 800);
+      setIsMobile(window.innerWidth <= 768);
     };
-    checkFullscreen();
-    window.addEventListener('resize', checkFullscreen);
-    return () => window.removeEventListener('resize', checkFullscreen);
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
   // Keyboard controls
@@ -211,85 +213,54 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [board, gameOver, isPaused, gameStarted]);
 
-  // Touch controls
-  useEffect(() => {
-    if (!gameStarted) return;
+  // Mobile control handlers
+  const handleMobileControl = (action: 'left' | 'right' | 'down' | 'rotate' | 'drop') => {
+    if (gameOver || isPaused || !gameStarted) return;
     
-    let startX = 0, startY = 0;
-    let lastTapTime = 0;
-    
-    const handleTouchStart = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      startX = touch.clientX;
-      startY = touch.clientY;
-    };
-    
-    const handleTouchEnd = (e: TouchEvent) => {
-      if (gameOver || isPaused) return;
-      
-      const touch = e.changedTouches[0];
-      const dx = touch.clientX - startX;
-      const dy = touch.clientY - startY;
-      const currentTime = Date.now();
-      
-      // Check for tap (rotation)
-      if (Math.abs(dx) < 30 && Math.abs(dy) < 30) {
-        if (currentTime - lastTapTime < 300) {
-          // Double tap for hard drop
-          setCurrentPiece(prev => {
-            let dropY = prev.y;
-            while (isValidMove(board, prev.shape, prev.x, dropY + 1)) {
-              dropY++;
-            }
-            return { ...prev, y: dropY };
-          });
-        } else {
-          // Single tap for rotation
-          setCurrentPiece(prev => {
-            const rotated = rotatePiece(prev.shape);
-            return isValidMove(board, rotated, prev.x, prev.y) 
-              ? { ...prev, shape: rotated } 
-              : prev;
-          });
-        }
-        lastTapTime = currentTime;
-      } else if (Math.abs(dx) > Math.abs(dy)) {
-        // Horizontal swipe
-        if (dx > 30) {
-          setCurrentPiece(prev => {
-            const newX = prev.x + 1;
-            return isValidMove(board, prev.shape, newX, prev.y) 
-              ? { ...prev, x: newX } 
-              : prev;
-          });
-        } else if (dx < -30) {
-          setCurrentPiece(prev => {
-            const newX = prev.x - 1;
-            return isValidMove(board, prev.shape, newX, prev.y) 
-              ? { ...prev, x: newX } 
-              : prev;
-          });
-        }
-      } else {
-        // Vertical swipe
-        if (dy > 30) {
-          setCurrentPiece(prev => {
-            const newY = prev.y + 1;
-            return isValidMove(board, prev.shape, prev.x, newY) 
-              ? { ...prev, y: newY } 
-              : prev;
-          });
-        }
-      }
-    };
-
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('touchend', handleTouchEnd);
-    return () => {
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [board, gameOver, isPaused, gameStarted]);
+    switch (action) {
+      case 'left':
+        setCurrentPiece(prev => {
+          const newX = prev.x - 1;
+          return isValidMove(board, prev.shape, newX, prev.y) 
+            ? { ...prev, x: newX } 
+            : prev;
+        });
+        break;
+      case 'right':
+        setCurrentPiece(prev => {
+          const newX = prev.x + 1;
+          return isValidMove(board, prev.shape, newX, prev.y) 
+            ? { ...prev, x: newX } 
+            : prev;
+        });
+        break;
+      case 'down':
+        setCurrentPiece(prev => {
+          const newY = prev.y + 1;
+          return isValidMove(board, prev.shape, prev.x, newY) 
+            ? { ...prev, y: newY } 
+            : prev;
+        });
+        break;
+      case 'rotate':
+        setCurrentPiece(prev => {
+          const rotated = rotatePiece(prev.shape);
+          return isValidMove(board, rotated, prev.x, prev.y) 
+            ? { ...prev, shape: rotated } 
+            : prev;
+        });
+        break;
+      case 'drop':
+        setCurrentPiece(prev => {
+          let dropY = prev.y;
+          while (isValidMove(board, prev.shape, prev.x, dropY + 1)) {
+            dropY++;
+          }
+          return { ...prev, y: dropY };
+        });
+        break;
+    }
+  };
 
   // Game loop
   useEffect(() => {
@@ -377,76 +348,129 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
   };
 
   return (
-    <div className="tetris-game" style={{ textAlign: 'center', padding: isFullscreen ? '2rem' : '1rem', position: 'relative' }}>
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        gap: isFullscreen ? '3rem' : '2rem', 
-        alignItems: 'flex-start',
-        flexWrap: 'wrap'
+    <div className="tetris-game" style={{ 
+      textAlign: 'center', 
+      padding: isFullscreen ? '2rem' : isMobile ? '1rem' : '1rem', 
+      position: 'relative',
+      maxWidth: '100%',
+      overflow: 'visible',
+      display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',
+      gap: isFullscreen ? '3rem' : isMobile ? '1rem' : '2rem',
+      alignItems: 'flex-start',
+      justifyContent: 'center'
+    }}>
+      {/* Game Board Section - Centered */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '1rem',
+        flex: isMobile ? 'none' : '1',
+        justifyContent: 'center',
+        width: isMobile ? '100%' : 'auto',
+        margin: isMobile ? '0' : '0 auto'
       }}>
-        <div>
-          <div className="game-board" style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(${BOARD_WIDTH}, 1fr)`,
-            gap: '1px',
-            background: 'var(--border-color)',
-            padding: '1px',
-            borderRadius: '8px',
-            maxWidth: isFullscreen ? '450px' : '300px',
-            margin: '0 auto'
-          }}>
-            {renderBoard().flat().map((cell, i) => (
-              <div
-                key={i}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  minHeight: isFullscreen ? '22px' : '15px',
-                  aspectRatio: '1',
-                  background: cell ? COLORS[cell - 1] : 'var(--card-background)',
-                  borderRadius: '2px',
-                  transition: 'all 0.1s ease'
-                }}
-              />
-            ))}
-          </div>
-          
-          <div style={{ marginTop: isFullscreen ? '2rem' : '1rem', textAlign: 'center' }}>
-            <div style={{ color: 'var(--primary-color)', marginBottom: isFullscreen ? '1rem' : '0.5rem', fontSize: isFullscreen ? '1.8rem' : '1.2rem', fontWeight: 'bold' }}>
-              Score: {score}
-            </div>
-            <div style={{ color: 'var(--accent-color)', marginBottom: isFullscreen ? '1rem' : '0.5rem', fontSize: isFullscreen ? '1.4rem' : '1rem' }}>
-              Level: {level}
-            </div>
-          </div>
+        <div className="game-board" style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${BOARD_WIDTH}, 1fr)`,
+          gap: '1px',
+          background: 'var(--border-color)',
+          padding: '1px',
+          borderRadius: '8px',
+          maxWidth: isFullscreen ? '450px' : isMobile ? '280px' : '300px',
+          margin: '0 auto'
+        }}>
+          {renderBoard().flat().map((cell, i) => (
+            <div
+              key={i}
+              style={{
+                width: '100%',
+                height: '100%',
+                minHeight: isFullscreen ? '22px' : isMobile ? '12px' : '15px',
+                aspectRatio: '1',
+                background: cell ? COLORS[cell - 1] : 'var(--card-background)',
+                borderRadius: '2px',
+                transition: 'all 0.1s ease'
+              }}
+            />
+          ))}
         </div>
         
+        {/* Mobile Controls */}
+        {isMobile && gameStarted && !gameOver && !isPaused && (
+          <div className="mobile-controls">
+            <div className="tetris-controls">
+              <button 
+                className="control-button arrow-left"
+                onClick={() => handleMobileControl('left')}
+                aria-label="Move Left"
+              />
+              <button 
+                className="control-button rotate"
+                onClick={() => handleMobileControl('rotate')}
+                aria-label="Rotate"
+              />
+              <button 
+                className="control-button arrow-right"
+                onClick={() => handleMobileControl('right')}
+                aria-label="Move Right"
+              />
+              <button 
+                className="control-button arrow-down"
+                onClick={() => handleMobileControl('down')}
+                aria-label="Soft Drop"
+              />
+              <button 
+                className="control-button drop"
+                onClick={() => handleMobileControl('drop')}
+                aria-label="Hard Drop"
+              />
+            </div>
+          </div>
+        )}
+        
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ color: 'var(--primary-color)', marginBottom: isFullscreen ? '1rem' : '0.5rem', fontSize: isFullscreen ? '1.8rem' : '1.2rem', fontWeight: 'bold' }}>
+            Score: {score}
+          </div>
+          <div style={{ color: 'var(--accent-color)', marginBottom: isFullscreen ? '1rem' : '0.5rem', fontSize: isFullscreen ? '1.4rem' : '1rem' }}>
+            Level: {level}
+          </div>
+        </div>
+      </div>
+
+      {/* Instructions and Controls Section - Right Sidebar */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        minWidth: isFullscreen ? '300px' : isMobile ? 'auto' : '250px',
+        maxWidth: isFullscreen ? '400px' : isMobile ? '100%' : '300px',
+        alignSelf: 'flex-start',
+        flex: isMobile ? 'none' : '0 0 auto'
+      }}>
         <div style={{ 
-          minWidth: isFullscreen ? '300px' : '200px',
-          maxWidth: isFullscreen ? '400px' : '300px',
           background: 'var(--card-background)',
-          padding: isFullscreen ? '2rem' : '1rem',
+          padding: isFullscreen ? '2rem' : isMobile ? '0.75rem' : '1rem',
           borderRadius: '8px',
-          border: '1px solid var(--border-color)'
+          border: '1px solid var(--border-color)',
+          textAlign: 'left'
         }}>
-          <h4 style={{ color: 'var(--primary-color)', marginBottom: isFullscreen ? '1.5rem' : '1rem', fontSize: isFullscreen ? '1.5rem' : '1.2rem' }}>Controls</h4>
-          <div style={{ fontSize: isFullscreen ? '1.1rem' : '0.9rem', color: 'var(--text-color-secondary)' }}>
-            <div style={{ marginBottom: isFullscreen ? '1rem' : '0.5rem' }}>
+          <h4 style={{ color: 'var(--primary-color)', marginBottom: isFullscreen ? '1.5rem' : isMobile ? '0.75rem' : '1rem', fontSize: isFullscreen ? '1.5rem' : isMobile ? '1rem' : '1.2rem' }}>Controls</h4>
+          <div style={{ fontSize: isFullscreen ? '1.1rem' : isMobile ? '0.8rem' : '0.9rem', color: 'var(--text-color-secondary)' }}>
+            <div style={{ marginBottom: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem' }}>
               <strong>Keyboard:</strong>
             </div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : '0.25rem' }}>A/D - Move Left/Right</div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : '0.25rem' }}>W - Rotate</div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : '0.25rem' }}>S - Soft Drop</div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : '0.25rem' }}>Space - Hard Drop</div>
-            <div style={{ marginBottom: isFullscreen ? '1rem' : '0.5rem' }}>P - Pause</div>
-            <div style={{ marginTop: isFullscreen ? '1rem' : '0.5rem', marginBottom: isFullscreen ? '1rem' : '0.5rem' }}>
-              <strong>Touch:</strong>
+            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>A/D - Move</div>
+            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>W - Rotate</div>
+            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>S - Drop</div>
+            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>Space - Hard Drop</div>
+            <div style={{ marginBottom: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem' }}>P - Pause</div>
+            <div style={{ marginTop: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem', marginBottom: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem' }}>
+              <strong>Mobile:</strong>
             </div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : '0.25rem' }}>Swipe Left/Right - Move</div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : '0.25rem' }}>Tap - Rotate</div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : '0.25rem' }}>Double Tap - Hard Drop</div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : '0.25rem' }}>Swipe Down - Soft Drop</div>
+            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>Use on-screen controls</div>
           </div>
         </div>
       </div>

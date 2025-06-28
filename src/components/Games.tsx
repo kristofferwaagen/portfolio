@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SnakeGame from './SnakeGame';
 import TetrisGame from './TetrisGame';
@@ -14,6 +14,19 @@ type GameType = 'snake' | 'tetris' | 'word-guess' | 'pokedle';
 
 export default function Games({ isOpen, onClose }: GamesProps) {
   const [currentGame, setCurrentGame] = useState<GameType | null>(null);
+
+  // Prevent body scroll when games are open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('games-open');
+    } else {
+      document.body.classList.remove('games-open');
+    }
+
+    return () => {
+      document.body.classList.remove('games-open');
+    };
+  }, [isOpen]);
 
   const handleGameSelect = (game: GameType) => {
     setCurrentGame(game);
@@ -158,8 +171,8 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                   <button className="close-button" onClick={onClose}>
                     ✕
                   </button>
-                  <h2>🎮 Fun Games</h2>
-                  <p>Take a break and enjoy some classic games!</p>
+                  <h2>Some small games for you!</h2>
+                  <p>Take a break and enjoy some games!</p>
                 </div>
 
                 <div className="games-grid">

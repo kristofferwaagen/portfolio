@@ -39,17 +39,19 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const moveRef = useRef(direction);
   const gameOverRef = useRef(false);
 
-  // Check if in fullscreen mode
+  // Check if in fullscreen mode and mobile
   useEffect(() => {
-    const checkFullscreen = () => {
+    const checkScreenSize = () => {
       setIsFullscreen(window.innerWidth >= 1200 && window.innerHeight >= 800);
+      setIsMobile(window.innerWidth <= 768);
     };
-    checkFullscreen();
-    window.addEventListener('resize', checkFullscreen);
-    return () => window.removeEventListener('resize', checkFullscreen);
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
   // Keyboard controls
@@ -70,35 +72,15 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [gameStarted]);
 
-  // Touch controls
-  useEffect(() => {
-    if (!gameStarted) return;
-    
-    let startX = 0, startY = 0;
-    const handleTouchStart = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      startX = touch.clientX;
-      startY = touch.clientY;
-    };
-    const handleTouchEnd = (e: TouchEvent) => {
-      const touch = e.changedTouches[0];
-      const dx = touch.clientX - startX;
-      const dy = touch.clientY - startY;
-      if (Math.abs(dx) > Math.abs(dy)) {
-        if (dx > 20) setDirection((prev) => prev[1] === -1 ? prev : [0, 1]); // right
-        else if (dx < -20) setDirection((prev) => prev[1] === 1 ? prev : [0, -1]); // left
-      } else {
-        if (dy > 20) setDirection((prev) => prev[0] === -1 ? prev : [1, 0]); // down
-        else if (dy < -20) setDirection((prev) => prev[0] === 1 ? prev : [-1, 0]); // up
-      }
-    };
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('touchend', handleTouchEnd);
-    return () => {
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [gameStarted]);
+  // Mobile control handlers
+  const handleMobileControl = (dir: [number, number]) => {
+    if (!gameStarted || gameOver) return;
+    setDirection((prev) => {
+      // Prevent reversing
+      if (prev[0] + dir[0] === 0 && prev[1] + dir[1] === 0) return prev;
+      return dir;
+    });
+  };
 
   // Game loop
   useEffect(() => {
@@ -146,40 +128,126 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
   };
 
   return (
-    <div className="snake-game" style={{ textAlign: 'center', padding: isFullscreen ? '2rem' : '1rem', position: 'relative' }}>
-      <div className="game-board" style={{
-        display: 'grid',
-        gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
-        gap: '1px',
-        maxWidth: isFullscreen ? '600px' : '400px',
-        margin: '0 auto',
-        background: 'var(--border-color)',
-        borderRadius: '8px',
-        padding: isFullscreen ? '12px' : '8px'
+    <div className="snake-game" style={{ 
+      textAlign: 'center', 
+      padding: isFullscreen ? '2rem' : isMobile ? '1rem' : '1rem', 
+      position: 'relative',
+      maxWidth: '100%',
+      overflow: 'visible',
+      display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',
+      gap: isFullscreen ? '3rem' : isMobile ? '1rem' : '2rem',
+      alignItems: 'flex-start',
+      justifyContent: 'center'
+    }}>
+      {/* Game Board Section - Centered */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '1rem',
+        flex: isMobile ? 'none' : '1',
+        justifyContent: 'center',
+        width: isMobile ? '100%' : 'auto',
+        margin: isMobile ? '0' : '0 auto'
       }}>
-        {Array.from({ length: BOARD_SIZE * BOARD_SIZE }).map((_, i) => {
-          const x = Math.floor(i / BOARD_SIZE);
-          const y = i % BOARD_SIZE;
-          const isSnake = snake.some(([sx, sy]) => sx === x && sy === y);
-          const isHead = snake[0][0] === x && snake[0][1] === y;
-          const isFood = food[0] === x && food[1] === y;
-          return (
-            <div
-              key={i}
-              className={`game-cell${isSnake ? ' snake' : ''}${isHead ? ' head' : ''}${isFood ? ' food' : ''}`}
-              style={{
-                width: '100%',
-                height: '100%',
-                minHeight: isFullscreen ? '30px' : '20px',
-                aspectRatio: '1',
-                background: isFood ? '#fdcb6e' : isHead ? '#00b894' : isSnake ? '#55efc4' : 'var(--card-background)',
-                borderRadius: isFood ? '50%' : 2,
-                border: '1px solid var(--border-color)',
-                transition: 'all 0.1s ease'
-              }}
-            />
-          );
-        })}
+        <div className="game-board" style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
+          gap: '1px',
+          maxWidth: isFullscreen ? '600px' : isMobile ? '350px' : '400px',
+          background: 'var(--border-color)',
+          borderRadius: '8px',
+          padding: isFullscreen ? '12px' : isMobile ? '6px' : '8px',
+          margin: '0 auto'
+        }}>
+          {Array.from({ length: BOARD_SIZE * BOARD_SIZE }).map((_, i) => {
+            const x = Math.floor(i / BOARD_SIZE);
+            const y = i % BOARD_SIZE;
+            const isSnake = snake.some(([sx, sy]) => sx === x && sy === y);
+            const isHead = snake[0][0] === x && snake[0][1] === y;
+            const isFood = food[0] === x && food[1] === y;
+            return (
+              <div
+                key={i}
+                className={`game-cell${isSnake ? ' snake' : ''}${isHead ? ' head' : ''}${isFood ? ' food' : ''}`}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  minHeight: isFullscreen ? '30px' : isMobile ? '18px' : '20px',
+                  aspectRatio: '1',
+                  background: isFood ? '#fdcb6e' : isHead ? '#00b894' : isSnake ? '#55efc4' : 'var(--card-background)',
+                  borderRadius: isFood ? '50%' : 2,
+                  border: '1px solid var(--border-color)',
+                  transition: 'all 0.1s ease'
+                }}
+              />
+            );
+          })}
+        </div>
+        
+        {/* Mobile Controls */}
+        {isMobile && gameStarted && !gameOver && (
+          <div className="mobile-controls">
+            <div className="snake-controls">
+              <button 
+                className="control-button arrow-up"
+                onClick={() => handleMobileControl([-1, 0])}
+                aria-label="Move Up"
+              />
+              <button 
+                className="control-button arrow-left"
+                onClick={() => handleMobileControl([0, -1])}
+                aria-label="Move Left"
+              />
+              <button 
+                className="control-button arrow-right"
+                onClick={() => handleMobileControl([0, 1])}
+                aria-label="Move Right"
+              />
+              <button 
+                className="control-button arrow-down"
+                onClick={() => handleMobileControl([1, 0])}
+                aria-label="Move Down"
+              />
+            </div>
+          </div>
+        )}
+        
+        <div style={{ 
+          textAlign: 'center', 
+          color: 'var(--primary-color)',
+          fontSize: isFullscreen ? '1.8rem' : '1.2rem',
+          fontWeight: 'bold'
+        }}>
+          Score: {score}
+        </div>
+      </div>
+
+      {/* Instructions and Controls Section - Right Sidebar */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        minWidth: isFullscreen ? '300px' : isMobile ? 'auto' : '250px',
+        maxWidth: isFullscreen ? '400px' : isMobile ? '100%' : '300px',
+        alignSelf: 'flex-start',
+        flex: isMobile ? 'none' : '0 0 auto'
+      }}>
+        <div style={{ 
+          fontSize: isFullscreen ? '1rem' : '0.9rem', 
+          color: 'var(--text-color-secondary)', 
+          padding: isFullscreen ? '1.5rem' : '1rem',
+          background: 'var(--card-background)',
+          borderRadius: '8px',
+          border: '1px solid var(--border-color)',
+          textAlign: 'left'
+        }}>
+          <div style={{ fontWeight: '600', marginBottom: isFullscreen ? '1rem' : '0.5rem', fontSize: isFullscreen ? '1.2rem' : '1rem' }}>Controls:</div>
+          <div style={{ fontSize: isFullscreen ? '1rem' : '0.9rem' }}>• Use WASD or Arrow keys to move</div>
+          <div style={{ fontSize: isFullscreen ? '1rem' : '0.9rem' }}>• Use on-screen controls on mobile</div>
+          <div style={{ fontSize: isFullscreen ? '1rem' : '0.9rem' }}>• Eat the yellow food to grow and score points!</div>
+        </div>
       </div>
       
       {!gameStarted && !gameOver && (
@@ -228,15 +296,6 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
         </div>
       )}
       
-      <div style={{ 
-        marginTop: isFullscreen ? '2rem' : '1rem', 
-        textAlign: 'center', 
-        color: 'var(--primary-color)',
-        fontSize: isFullscreen ? '1.8rem' : '1.2rem',
-        fontWeight: 'bold'
-      }}>
-        Score: {score}
-      </div>
       {gameOver && (
         <div style={{
           position: 'absolute',
@@ -279,22 +338,6 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
           </button>
         </div>
       )}
-      <div style={{ 
-        fontSize: isFullscreen ? '1rem' : '0.9rem', 
-        color: 'var(--text-color-secondary)', 
-        marginTop: isFullscreen ? '2rem' : '1rem',
-        padding: isFullscreen ? '1.5rem' : '1rem',
-        background: 'var(--card-background)',
-        borderRadius: '8px',
-        border: '1px solid var(--border-color)',
-        maxWidth: isFullscreen ? '600px' : '400px',
-        margin: isFullscreen ? '2rem auto 0' : '1rem auto 0'
-      }}>
-        <div style={{ fontWeight: '600', marginBottom: isFullscreen ? '1rem' : '0.5rem', fontSize: isFullscreen ? '1.2rem' : '1rem' }}>Controls:</div>
-        <div style={{ fontSize: isFullscreen ? '1rem' : '0.9rem' }}>• Use WASD or Arrow keys to move</div>
-        <div style={{ fontSize: isFullscreen ? '1rem' : '0.9rem' }}>• Swipe on mobile devices</div>
-        <div style={{ fontSize: isFullscreen ? '1rem' : '0.9rem' }}>• Eat the yellow food to grow and score points!</div>
-      </div>
     </div>
   );
 } 

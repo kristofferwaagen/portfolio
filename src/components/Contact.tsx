@@ -239,6 +239,15 @@ Best regards,
             </motion.div>
           </div>
         </motion.div>
+        <p style={{ 
+          textAlign: 'center', 
+          marginTop: '2rem', 
+          color: 'var(--text-color-secondary)',
+          fontSize: '1rem',
+          fontStyle: 'italic'
+        }}>
+          Thank you for visiting my portfolio! I left a little something for you in the navigation bar! But make sure you don't scroll away before you see it!
+        </p>
       </div>
     </section>
   )

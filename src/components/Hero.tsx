@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import TerminalAnimation from './TerminalAnimation'
 
 interface HeroProps {
@@ -10,6 +10,7 @@ interface HeroProps {
 export default function Hero({ setCurrentSection }: HeroProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [showHelpText, setShowHelpText] = useState(false)
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -48,6 +49,10 @@ export default function Hero({ setCurrentSection }: HeroProps) {
     // Terminal animation completed
   }
 
+  const handleHelpClick = () => {
+    setShowHelpText(true)
+  }
+
   const handleScrollToNext = () => {
     const aboutSection = document.getElementById('about')
     if (aboutSection) {
@@ -67,6 +72,21 @@ export default function Hero({ setCurrentSection }: HeroProps) {
         >
           <motion.div className="hero-terminal" variants={itemVariants}>
             <TerminalAnimation onComplete={handleTerminalComplete} />
+            <div className="terminal-outro">
+              {!showHelpText ? (
+                <button onClick={handleHelpClick} className="help-btn">
+                  <span className="help-icon">↑</span>
+                  <span className="help-text">Help! Why am I seeing this?</span>
+                </button>
+              ) : (
+                <div className="help-content">
+                  <div className="help-text-content">
+                    <h4>Don't worry!</h4>
+                    <p>This is just a fun way to introduce myself with an animation. Scroll down to explore more about me, my projects and skills!</p>
+                  </div>
+                </div>
+              )}
+            </div>
           </motion.div>
         </motion.div>
 
@@ -80,7 +100,7 @@ export default function Hero({ setCurrentSection }: HeroProps) {
         >
           <div className="scroll-arrow" />
           <span>Scroll to explore</span>
-          <span>P.S. Scroll down to Contact for a surprise in the navbar! (after reading the website's content of course)</span>
+          <span>P.S. Scroll down to Contact for a surprise! (after reading the website's content of course)</span>
         </motion.div>
       </div>
     </section>
