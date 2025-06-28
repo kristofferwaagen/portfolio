@@ -51,6 +51,10 @@ export default function TerminalAnimation({ onComplete }: TerminalAnimationProps
         <pre className="terminal-body">
           {displayed}
           <span className="terminal-cursor">&#9608;</span>
+          {/* Invisible text to maintain full width */}
+          <span style={{ visibility: 'hidden', position: 'absolute', pointerEvents: 'none' }}>
+            {message}
+          </span>
         </pre>
       </div>
     </div>
