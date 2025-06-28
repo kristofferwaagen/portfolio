@@ -93,9 +93,9 @@ function AppContent() {
       <main className="main-content">
         <Hero setCurrentSection={handleSectionChange} />
         <About setCurrentSection={handleSectionChange} />
-        <Projects setCurrentSection={handleSectionChange} />
-        <Skills setCurrentSection={handleSectionChange} />
-        <Contact setCurrentSection={handleSectionChange} />
+        <Projects />
+        <Skills />
+        <Contact />
       </main>
 
       {/* Scroll Progress Indicator */}

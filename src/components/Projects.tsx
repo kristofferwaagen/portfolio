@@ -2,10 +2,6 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 
-interface AboutProps {
-  _setCurrentSection: (section: string) => void
-}
-
 interface Project {
   id: number
   title: string
@@ -14,7 +10,7 @@ interface Project {
   company?: string
 }
 
-export default function Projects({ _setCurrentSection }: AboutProps) {
+export default function Projects() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)

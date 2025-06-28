@@ -2,10 +2,6 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 
-interface SkillsProps {
-  _setCurrentSection: (section: string) => void
-}
-
 interface Skill {
   name: string
   level: 'Beginner' | 'Intermediate' | 'Advanced'
@@ -13,7 +9,7 @@ interface Skill {
   icon?: string
 }
 
-export default function Skills({ _setCurrentSection }: SkillsProps) {
+export default function Skills() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
 

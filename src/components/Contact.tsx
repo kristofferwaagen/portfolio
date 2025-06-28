@@ -4,11 +4,7 @@ import { useRef, useState } from 'react'
 import githubIcon from '/images/github.png'
 import linkedinIcon from '/images/linkedin.png'
 
-interface ContactProps {
-  _setCurrentSection: (section: string) => void
-}
-
-export default function Contact({ _setCurrentSection }: ContactProps) {
+export default function Contact() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
   const [showCaptcha, setShowCaptcha] = useState(false)
