@@ -91,16 +91,6 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const categories = [
-    { key: 'type1', label: 'Type 1' },
-    { key: 'type2', label: 'Type 2' },
-    { key: 'species', label: 'Species' },
-    { key: 'colour', label: 'Color' },
-    { key: 'evolution_stage', label: 'Evolution' },
-    { key: 'height', label: 'Height' },
-    { key: 'weight', label: 'Weight' }
-  ];
-
   // Check if device is mobile and if in fullscreen mode
   useEffect(() => {
     const checkMobile = () => {
@@ -130,7 +120,7 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
         const newPoke = getRandomPokemon(data);
         setTargetPokemon(newPoke);
       })
-      .catch(error => {
+      .catch(() => {
         setLoading(false);
       });
   }, []);

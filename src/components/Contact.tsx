@@ -1,14 +1,10 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import githubIcon from '/images/github.png'
 import linkedinIcon from '/images/linkedin.png'
 
-interface ContactProps {
-  onOpenGames: () => void;
-}
-
-export default function Contact({ onOpenGames }: ContactProps) {
+export default function Contact() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
   const [showCaptcha, setShowCaptcha] = useState(false)

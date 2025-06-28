@@ -109,26 +109,6 @@ export default function WordGuess({ onGameOver }: WordGuessProps) {
     return suggestions;
   }, [currentGuess, words, targetWord, showSuggestions, isMobile]);
 
-  const getKeyState = (key: string): LetterState => {
-    if (key === 'ENTER' || key === 'BACKSPACE') return 'unused';
-    for (let i = 0; i < evaluations.length; i++) {
-      for (let j = 0; j < evaluations[i].length; j++) {
-        if (guesses[i][j] === key) {
-          if (evaluations[i][j] === 'correct') return 'correct';
-          if (evaluations[i][j] === 'present') return 'present';
-        }
-      }
-    }
-    for (let i = 0; i < evaluations.length; i++) {
-      for (let j = 0; j < evaluations[i].length; j++) {
-        if (guesses[i][j] === key && evaluations[i][j] === 'absent') {
-          return 'absent';
-        }
-      }
-    }
-    return 'unused';
-  };
-
   const handleKeyPress = (key: string) => {
     if (gameOver || loading) return;
     if (key === 'ENTER') {
