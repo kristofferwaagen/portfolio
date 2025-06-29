@@ -168,9 +168,9 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
       maxWidth: '100%',
       overflow: 'hidden',
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: isMobile ? 'column' : 'row',
       gap: isMobile ? '0.5rem' : '1rem',
-      alignItems: 'center',
+      alignItems: isMobile ? 'center' : 'flex-start',
       justifyContent: 'center',
       height: '100%',
       minHeight: 0
@@ -227,19 +227,22 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
         flexDirection: 'column',
         alignItems: 'center',
         gap: '0.5rem',
-        flex: isMobile ? 'none' : '1',
+        flex: isMobile ? 'none' : '1 1 auto',
         justifyContent: 'center',
         width: isMobile ? '100%' : 'auto',
         margin: isMobile ? '0' : '0 auto',
         minHeight: 0,
-        overflow: 'hidden'
+        overflow: 'visible',
+        minWidth: isMobile ? 'auto' : '800px'
       }}>
         <div className="game-board" style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
           gap: '1px',
-          maxWidth: isMobile ? '250px' : 'min(90vw, 400px)',
-          width: '100%',
+          width: isMobile ? '90vw' : '600px',
+          height: isMobile ? '90vw' : '600px',
+          maxWidth: isMobile ? '100vw' : '700px',
+          maxHeight: isMobile ? '100vw' : '700px',
           aspectRatio: '1',
           background: 'var(--border-color)',
           borderRadius: '8px',

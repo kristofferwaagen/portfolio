@@ -3037,8 +3037,12 @@ section {
       }
 
       .game-cell {
-        width: 18px;
-        height: 18px;
+        width: 100% !important;
+        height: 100% !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        max-width: none !important;
+        max-height: none !important;
         border-radius: 2px;
         background: rgba(255,255,255,0.1);
 
@@ -4105,6 +4109,19 @@ body.games-open {
     @media (max-width: 768px) {
       padding: 10px 16px;
       font-size: 0.85rem;
+    }
+  }
+}
+
+.tetris-game {
+  .game-board {
+    .game-cell {
+      width: 100% !important;
+      height: 100% !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      max-width: none !important;
+      max-height: none !important;
     }
   }
 }

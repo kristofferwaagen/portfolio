@@ -344,9 +344,9 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
       maxWidth: '100%',
       overflow: 'hidden',
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: isMobile ? 'column' : 'row',
       gap: isMobile ? '0.5rem' : '1rem',
-      alignItems: 'center',
+      alignItems: isMobile ? 'center' : 'flex-start',
       justifyContent: 'center',
       height: '100%',
       minHeight: 0
@@ -357,36 +357,41 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
         flexDirection: 'column',
         alignItems: 'center',
         gap: '1rem',
-        flex: isMobile ? 'none' : '1',
+        flex: isMobile ? 'none' : '1 1 auto',
         justifyContent: 'center',
         width: isMobile ? '100%' : 'auto',
-        margin: isMobile ? '0' : '0 auto'
+        margin: isMobile ? '0' : '0 auto',
+        minWidth: isMobile ? 'auto' : '700px',
+        overflow: 'visible'
       }}>
         <div className="game-board" style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${BOARD_WIDTH}, 1fr)`,
+          gridTemplateRows: `repeat(${BOARD_HEIGHT}, 1fr)`,
           gap: '1px',
+          width: isMobile ? '90vw' : '400px',
+          height: isMobile ? '180vw' : '600px',
+          maxWidth: isMobile ? '100vw' : '420px',
+          maxHeight: isMobile ? '200vw' : '620px',
           background: 'var(--border-color)',
           padding: '1px',
           borderRadius: '8px',
-          maxWidth: isMobile ? '180px' : 'min(90vw, 300px)',
-          width: '100%',
-          aspectRatio: '10/20',
           margin: '0 auto'
         }}>
-          {renderBoard().flat().map((cell, i) => (
-            <div
-              key={i}
-              style={{
-                width: '100%',
-                height: '100%',
-                aspectRatio: '1',
-                background: cell ? COLORS[cell - 1] : 'var(--card-background)',
-                borderRadius: '2px',
-                transition: 'all 0.1s ease'
-              }}
-            />
-          ))}
+          {renderBoard().map((row, rowIndex) => 
+            row.map((cell, colIndex) => (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  background: cell ? COLORS[cell - 1] : 'var(--card-background)',
+                  borderRadius: '2px',
+                  transition: 'all 0.1s ease'
+                }}
+              />
+            ))
+          )}
         </div>
         
         {/* Mobile Controls */}
@@ -422,7 +427,7 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
           </div>
         )}
         
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
           <div style={{ color: 'var(--primary-color)', marginBottom: isFullscreen ? '1rem' : '0.5rem', fontSize: isFullscreen ? '1.8rem' : '1.2rem', fontWeight: 'bold' }}>
             Score: {score}
           </div>
