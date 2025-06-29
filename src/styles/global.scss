@@ -3657,46 +3657,46 @@ body.games-open {
   display: none;
   position: relative;
   z-index: 1001;
-  gap: 12px;
+  gap: 8px;
   pointer-events: auto;
   max-width: 90vw;
-  margin: 1rem auto;
+  margin: 0.5rem auto;
   
   @media (max-width: 768px) {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 8px;
     background: rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
+    border-radius: 16px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
   
   @media (max-width: 480px) {
-    gap: 8px;
-    padding: 8px;
-    
-    .control-button {
-      width: 50px;
-      height: 50px;
-      font-size: 20px;
-    }
-    
-    .control-row {
-      gap: 8px;
-    }
-  }
-  
-  @media (max-height: 600px) {
-    gap: 8px;
+    gap: 6px;
+    padding: 6px;
     
     .control-button {
       width: 45px;
       height: 45px;
       font-size: 18px;
+    }
+    
+    .control-row {
+      gap: 6px;
+    }
+  }
+  
+  @media (max-height: 600px) {
+    gap: 6px;
+    
+    .control-button {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
     }
   }
   
@@ -3707,20 +3707,20 @@ body.games-open {
   
   .control-row {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     align-items: center;
     justify-content: center;
   }
   
   .control-button {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     border: none;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     color: var(--text-color);
-    font-size: 22px;
+    font-size: 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -3769,7 +3769,7 @@ body.games-open {
   .tetris-controls {
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 8px;
     align-items: center;
     justify-content: center;
   }
@@ -3777,7 +3777,7 @@ body.games-open {
   .snake-controls {
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 8px;
     align-items: center;
     justify-content: center;
   }

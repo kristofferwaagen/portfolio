@@ -338,15 +338,15 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
     <div className="word-guess" style={{ 
       textAlign: 'center', 
       position: 'relative',
-      padding: '0.5rem',
+      padding: isMobile ? '0.25rem' : '0.5rem',
       maxWidth: '100%',
       overflow: 'hidden',
       height: '100%',
       minHeight: 0,
       display: 'flex',
       flexDirection: isMobile ? 'column' : 'row',
-      gap: '1rem',
-      alignItems: 'flex-start',
+      gap: isMobile ? '0.5rem' : '1rem',
+      alignItems: 'center',
       justifyContent: 'center'
     }}>
       {/* Game Section - Centered */}
@@ -371,7 +371,7 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-start',
-          maxHeight: '60vh',
+          maxHeight: isMobile ? '40vh' : '60vh',
           margin: '0 auto'
         }}>
           {guesses.map((guess, index) => renderRow(guess, evaluations[index], index))}
@@ -382,102 +382,92 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
         {/* Mobile Input Field */}
         {isMobile && !gameOver && (
           <div style={{
-            marginBottom: '1rem',
-            padding: '0 0.5rem',
+            marginBottom: '0.5rem',
+            padding: '0 0.25rem',
             display: 'flex',
-            gap: '1rem',
-            alignItems: 'flex-start',
-            justifyContent: 'center'
+            flexDirection: 'column',
+            gap: '0.5rem',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%'
           }}>
             {/* Input Section */}
             <div style={{
               display: 'flex',
-              flexDirection: 'column',
-              gap: '0.5rem',
-              minWidth: '200px'
+              gap: '0.25rem',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              maxWidth: '300px'
             }}>
-              <div style={{
-                display: 'flex',
-                gap: '0.5rem',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <input
-                  type="text"
-                  value={currentGuess}
-                  onChange={handleMobileInput}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      handleMobileSubmit();
-                    }
-                  }}
-                  placeholder="Type your guess..."
-                  style={{
-                    flex: '1',
-                    maxWidth: '200px',
-                    padding: '0.75rem',
-                    fontSize: '1rem',
-                    border: '2px solid var(--border-color)',
-                    borderRadius: '8px',
-                    background: 'var(--card-background)',
-                    color: 'var(--text-color)',
-                    textAlign: 'center',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em'
-                  }}
-                  maxLength={WORD_LENGTH}
-                  autoFocus
-                />
-                <button
-                  onClick={handleMobileSubmit}
-                  disabled={currentGuess.length !== WORD_LENGTH}
-                  style={{
-                    padding: '0.75rem 1rem',
-                    background: currentGuess.length === WORD_LENGTH ? 'var(--accent-color)' : 'var(--border-color)',
-                    color: currentGuess.length === WORD_LENGTH ? 'var(--background-color)' : 'var(--text-color-secondary)',
-                    border: 'none',
-                    borderRadius: '8px',
-                    fontSize: '0.9rem',
-                    fontWeight: '600',
-                    cursor: currentGuess.length === WORD_LENGTH ? 'pointer' : 'not-allowed',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  Enter
-                </button>
-                <button
-                  onClick={handleMobileBackspace}
-                  disabled={currentGuess.length === 0}
-                  style={{
-                    padding: '0.75rem',
-                    background: currentGuess.length > 0 ? 'var(--card-background)' : 'var(--border-color)',
-                    color: currentGuess.length > 0 ? 'var(--text-color)' : 'var(--text-color-secondary)',
-                    border: '2px solid var(--border-color)',
-                    borderRadius: '8px',
-                    fontSize: '1rem',
-                    cursor: currentGuess.length > 0 ? 'pointer' : 'not-allowed',
-                    transition: 'all 0.2s ease',
-                    minWidth: '44px'
-                  }}
-                >
-                  ←
-                </button>
-              </div>
-              <div style={{
-                fontSize: '0.8rem',
-                color: 'var(--text-color-secondary)',
-                textAlign: 'center'
-              }}>
-                Type {WORD_LENGTH} letters and press Enter
-              </div>
+              <input
+                type="text"
+                value={currentGuess}
+                onChange={handleMobileInput}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleMobileSubmit();
+                  }
+                }}
+                placeholder="Type your guess..."
+                style={{
+                  flex: '1',
+                  maxWidth: '150px',
+                  padding: '0.5rem',
+                  fontSize: '0.9rem',
+                  border: '2px solid var(--border-color)',
+                  borderRadius: '8px',
+                  background: 'var(--card-background)',
+                  color: 'var(--text-color)',
+                  textAlign: 'center',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em'
+                }}
+                maxLength={WORD_LENGTH}
+                autoFocus
+              />
+              <button
+                onClick={handleMobileSubmit}
+                disabled={currentGuess.length !== WORD_LENGTH}
+                style={{
+                  padding: '0.5rem 0.75rem',
+                  background: currentGuess.length === WORD_LENGTH ? 'var(--accent-color)' : 'var(--border-color)',
+                  color: currentGuess.length === WORD_LENGTH ? 'var(--background-color)' : 'var(--text-color-secondary)',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '0.8rem',
+                  fontWeight: '600',
+                  cursor: currentGuess.length === WORD_LENGTH ? 'pointer' : 'not-allowed',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Enter
+              </button>
+              <button
+                onClick={handleMobileBackspace}
+                disabled={currentGuess.length === 0}
+                style={{
+                  padding: '0.5rem',
+                  background: currentGuess.length > 0 ? 'var(--card-background)' : 'var(--border-color)',
+                  color: currentGuess.length > 0 ? 'var(--text-color)' : 'var(--text-color-secondary)',
+                  border: '2px solid var(--border-color)',
+                  borderRadius: '8px',
+                  fontSize: '0.9rem',
+                  cursor: currentGuess.length > 0 ? 'pointer' : 'not-allowed',
+                  transition: 'all 0.2s ease',
+                  minWidth: '40px'
+                }}
+              >
+                ←
+              </button>
             </div>
 
             {/* Mobile Button Row */}
             <div style={{
               display: 'flex',
-              gap: '0.5rem',
+              gap: '0.25rem',
               justifyContent: 'center',
-              marginTop: '0.5rem'
+              flexWrap: 'wrap'
             }}>
               <button
                 onClick={handleRestart}
@@ -485,9 +475,9 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
                   background: 'var(--accent-color)',
                   color: 'var(--background-color)',
                   border: 'none',
-                  padding: '8px 16px',
-                  borderRadius: '8px',
-                  fontSize: '0.8rem',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
                   fontWeight: 'bold',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
@@ -512,9 +502,9 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
                   background: hintUsed ? 'var(--border-color)' : 'transparent',
                   border: '2px solid var(--accent-color)',
                   color: hintUsed ? 'var(--text-color-secondary)' : 'var(--accent-color)',
-                  padding: isFullscreen ? '16px 32px' : '12px 24px',
-                  borderRadius: '12px',
-                  fontSize: isFullscreen ? '1.2rem' : '1rem',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
                   cursor: hintUsed ? 'not-allowed' : 'pointer',
                   transition: 'all 0.2s ease',
                   fontWeight: 'bold',
@@ -534,106 +524,8 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
                   }
                 }}
               >
-                {hintUsed ? '🔒 Hint Used' : '💡 Reveal Letter'}
+                {hintUsed ? '🔒 Hint Used' : '💡 Hint'}
               </button>
-            </div>
-
-            {/* Mobile Suggestions and Instructions */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.5rem',
-              minWidth: '150px',
-              maxWidth: '200px',
-              marginTop: '0.5rem'
-            }}>
-              {/* Word Suggestions */}
-              {showSuggestions && (
-                <div style={{ 
-                  padding: '0.75rem',
-                  background: 'linear-gradient(135deg, rgba(184, 169, 201, 0.15) 0%, rgba(184, 169, 201, 0.08) 100%)',
-                  borderRadius: '8px',
-                  border: '2px solid rgba(184, 169, 201, 0.4)',
-                  boxShadow: '0 4px 12px rgba(184, 169, 201, 0.2)',
-                  position: 'relative',
-                  zIndex: 5
-                }}>
-                  {wordSuggestions.length > 0 ? (
-                    <>
-                      <div style={{ 
-                        fontSize: '0.8rem', 
-                        color: 'var(--accent-color)', 
-                        fontWeight: '700',
-                        marginBottom: '0.5rem',
-                        textAlign: 'center'
-                      }}>
-                        💡 Suggestions ({wordSuggestions.length}):
-                      </div>
-                      <div style={{ 
-                        display: 'flex', 
-                        gap: '0.25rem', 
-                        justifyContent: 'center', 
-                        flexWrap: 'wrap' 
-                      }}>
-                        {wordSuggestions.slice(0, 3).map((suggestion, index) => (
-                          <button
-                            key={index}
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            style={{
-                              background: 'var(--card-background)',
-                              border: '1px solid var(--accent-color)',
-                              borderRadius: '4px',
-                              padding: '0.25rem 0.5rem',
-                              fontSize: '0.7rem',
-                              cursor: 'pointer',
-                              transition: 'all 0.2s ease',
-                              color: 'var(--text-color)',
-                              fontWeight: '600'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.background = 'var(--accent-color)';
-                              e.currentTarget.style.color = 'var(--background-color)';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.background = 'var(--card-background)';
-                              e.currentTarget.style.color = 'var(--text-color)';
-                            }}
-                          >
-                            {suggestion}
-                          </button>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <div style={{ 
-                      fontSize: '0.7rem', 
-                      color: 'var(--text-color-secondary)', 
-                      textAlign: 'center',
-                      fontStyle: 'italic'
-                    }}>
-                      {currentGuess.length === 0 
-                        ? '💡 Start typing for suggestions!' 
-                        : '💡 No suggestions found'
-                      }
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Instructions */}
-              <div style={{ 
-                fontSize: '0.7rem', 
-                color: 'var(--text-color-secondary)', 
-                padding: '0.5rem',
-                background: 'var(--card-background)',
-                borderRadius: '6px',
-                border: '1px solid var(--border-color)'
-              }}>
-                <div style={{ fontWeight: '600', marginBottom: '0.25rem' }}>How to Play:</div>
-                <div>• Green = correct position</div>
-                <div>• Yellow = wrong position</div>
-                <div>• Gray = not in word</div>
-              </div>
             </div>
           </div>
         )}

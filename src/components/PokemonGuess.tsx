@@ -620,7 +620,7 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
   return (
     <div className="pokemon-guess" style={{ 
       textAlign: 'center', 
-      padding: '0.5rem',
+      padding: isMobile ? '0.25rem' : '0.5rem',
       maxWidth: '100%',
       overflow: 'hidden',
       height: '100%',
@@ -639,7 +639,7 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
       <div style={{ 
         marginBottom: '0.5rem',
         maxWidth: '100%',
-        maxHeight: '60vh',
+        maxHeight: isMobile ? '40vh' : '60vh',
         overflowY: 'auto',
         overflowX: 'hidden'
       }}>
@@ -671,15 +671,15 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
             onChange={handleInputChange}
             placeholder={isFullscreen ? "Enter Pokémon name... (auto-suggestions available)" : isMobile ? "Enter Pokémon name..." : "Enter Pokémon name... (auto-suggestions available)"}
             style={{
-              padding: isFullscreen ? '16px 20px' : isMobile ? '10px 14px' : '12px 16px',
-              fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.9rem' : '1rem',
+              padding: isFullscreen ? '16px 20px' : isMobile ? '8px 12px' : '12px 16px',
+              fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.8rem' : '1rem',
               border: showSuggestions && suggestions.length > 0 ? '2px solid var(--accent-color)' : '2px solid var(--border-color)',
               borderRadius: '12px',
               background: 'var(--card-background)',
               color: 'var(--text-color)',
-              width: isFullscreen ? '500px' : isMobile ? '250px' : '300px',
+              width: isFullscreen ? '500px' : isMobile ? '200px' : '300px',
               maxWidth: '90vw',
-              marginBottom: isFullscreen ? '2rem' : isMobile ? '0.75rem' : '1rem',
+              marginBottom: isFullscreen ? '2rem' : isMobile ? '0.5rem' : '1rem',
               transition: 'all 0.3s ease',
               outline: 'none'
             }}
@@ -726,11 +726,11 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
             background: 'var(--background-color)',
             border: '2px solid var(--accent-color)',
             borderRadius: isFullscreen ? '12px' : '8px',
-            maxHeight: isFullscreen ? '300px' : isMobile ? '150px' : '200px',
+            maxHeight: isFullscreen ? '300px' : isMobile ? '120px' : '200px',
             overflowY: 'auto',
             zIndex: 1000,
             boxShadow: '0 8px 25px rgba(0,0,0,0.2)',
-            width: isFullscreen ? '500px' : isMobile ? '250px' : '300px',
+            width: isFullscreen ? '500px' : isMobile ? '200px' : '300px',
             maxWidth: '90vw',
             marginTop: '-1rem'
           }}>
@@ -771,13 +771,13 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
             background: 'var(--primary-color)',
             color: 'var(--background-color)',
             border: 'none',
-            padding: isFullscreen ? '16px 32px' : isMobile ? '10px 20px' : '12px 24px',
+            padding: isFullscreen ? '16px 32px' : isMobile ? '8px 16px' : '12px 24px',
             borderRadius: '12px',
-            fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.9rem' : '1rem',
+            fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.8rem' : '1rem',
             fontWeight: 'bold',
             cursor: 'pointer',
-            marginRight: '12px',
-            marginBottom: isFullscreen ? '1rem' : '0.5rem',
+            marginRight: isMobile ? '8px' : '12px',
+            marginBottom: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem',
             transition: 'all 0.2s ease'
           }}
           onMouseEnter={(e) => {
@@ -795,13 +795,13 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
             background: 'var(--accent-color)',
             color: 'var(--background-color)',
             border: 'none',
-            padding: isFullscreen ? '16px 32px' : isMobile ? '10px 20px' : '12px 24px',
+            padding: isFullscreen ? '16px 32px' : isMobile ? '8px 16px' : '12px 24px',
             borderRadius: '12px',
-            fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.9rem' : '1rem',
+            fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.8rem' : '1rem',
             fontWeight: 'bold',
             cursor: 'pointer',
-            marginRight: '12px',
-            marginBottom: isFullscreen ? '1rem' : '0.5rem',
+            marginRight: isMobile ? '8px' : '12px',
+            marginBottom: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem',
             transition: 'all 0.2s ease'
           }}
           onMouseEnter={(e) => {
@@ -820,9 +820,9 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
             background: hintUsed ? 'var(--border-color)' : 'transparent',
             border: '2px solid var(--accent-color)',
             color: hintUsed ? 'var(--text-color-secondary)' : 'var(--accent-color)',
-            padding: isFullscreen ? '16px 32px' : isMobile ? '10px 20px' : '12px 24px',
+            padding: isFullscreen ? '16px 32px' : isMobile ? '8px 16px' : '12px 24px',
             borderRadius: '12px',
-            fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.9rem' : '1rem',
+            fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.8rem' : '1rem',
             cursor: hintUsed ? 'not-allowed' : 'pointer',
             transition: 'all 0.2s ease',
             fontWeight: 'bold',

@@ -339,14 +339,14 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
   return (
     <div className="tetris-game" style={{ 
       textAlign: 'center', 
-      padding: '0.5rem', 
+      padding: isMobile ? '0.25rem' : '0.5rem', 
       position: 'relative',
       maxWidth: '100%',
       overflow: 'hidden',
       display: 'flex',
-      flexDirection: isMobile ? 'column' : 'row',
-      gap: '1rem',
-      alignItems: 'flex-start',
+      flexDirection: 'column',
+      gap: isMobile ? '0.5rem' : '1rem',
+      alignItems: 'center',
       justifyContent: 'center',
       height: '100%',
       minHeight: 0
@@ -369,7 +369,7 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
           background: 'var(--border-color)',
           padding: '1px',
           borderRadius: '8px',
-          maxWidth: 'min(90vw, 300px)',
+          maxWidth: isMobile ? '180px' : 'min(90vw, 300px)',
           width: '100%',
           aspectRatio: '10/20',
           margin: '0 auto'
@@ -399,14 +399,14 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
                 aria-label="Move Left"
               />
               <button 
-                className="control-button rotate"
-                onClick={() => handleMobileControl('rotate')}
-                aria-label="Rotate"
-              />
-              <button 
                 className="control-button arrow-right"
                 onClick={() => handleMobileControl('right')}
                 aria-label="Move Right"
+              />
+              <button 
+                className="control-button rotate"
+                onClick={() => handleMobileControl('rotate')}
+                aria-label="Rotate"
               />
               <button 
                 className="control-button arrow-down"

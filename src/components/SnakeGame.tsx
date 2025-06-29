@@ -163,14 +163,14 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
   return (
     <div className="snake-game" style={{ 
       textAlign: 'center', 
-      padding: '0.5rem', 
+      padding: isMobile ? '0.25rem' : '0.5rem', 
       position: 'relative',
       maxWidth: '100%',
       overflow: 'hidden',
       display: 'flex',
-      flexDirection: isMobile ? 'column' : 'row',
-      gap: '1rem',
-      alignItems: 'flex-start',
+      flexDirection: 'column',
+      gap: isMobile ? '0.5rem' : '1rem',
+      alignItems: 'center',
       justifyContent: 'center',
       height: '100%',
       minHeight: 0
@@ -238,12 +238,12 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
           display: 'grid',
           gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
           gap: '1px',
-          maxWidth: 'min(90vw, 400px)',
+          maxWidth: isMobile ? '250px' : 'min(90vw, 400px)',
           width: '100%',
           aspectRatio: '1',
           background: 'var(--border-color)',
           borderRadius: '8px',
-          padding: '4px',
+          padding: isMobile ? '2px' : '4px',
           margin: '0 auto'
         }}>
           {Array.from({ length: BOARD_SIZE * BOARD_SIZE }).map((_, i) => {
@@ -275,11 +275,6 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
           <div className="mobile-controls">
             <div className="snake-controls">
               <button 
-                className="control-button arrow-up"
-                onClick={() => handleMobileControl([-1, 0])}
-                aria-label="Move Up"
-              />
-              <button 
                 className="control-button arrow-left"
                 onClick={() => handleMobileControl([0, -1])}
                 aria-label="Move Left"
@@ -288,6 +283,11 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
                 className="control-button arrow-right"
                 onClick={() => handleMobileControl([0, 1])}
                 aria-label="Move Right"
+              />
+              <button 
+                className="control-button arrow-up"
+                onClick={() => handleMobileControl([-1, 0])}
+                aria-label="Move Up"
               />
               <button 
                 className="control-button arrow-down"
