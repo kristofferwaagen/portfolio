@@ -10,14 +10,46 @@ const INITIAL_DIRECTION = [0, 1];
 const SPEED = 200;
 
 function getRandomFood(snake: number[][]): number[] {
-  let food: number[];
-  do {
-    food = [
+  // Check if the board is full (snake length equals board size)
+  if (snake.length >= BOARD_SIZE * BOARD_SIZE) {
+    // Board is full, return a default position (this shouldn't happen in normal gameplay)
+    return [0, 0];
+  }
+
+  // Create a set of occupied positions for faster lookup
+  const occupiedPositions = new Set(snake.map(([x, y]) => `${x},${y}`));
+  
+  // Try to find an empty position with a reasonable number of attempts
+  let attempts = 0;
+  const maxAttempts = 1000; // Prevent infinite loops
+  
+  while (attempts < maxAttempts) {
+    const food = [
       Math.floor(Math.random() * BOARD_SIZE),
       Math.floor(Math.random() * BOARD_SIZE)
     ];
-  } while (snake.some(([x, y]) => x === food[0] && y === food[1]));
-  return food;
+    
+    const foodKey = `${food[0]},${food[1]}`;
+    if (!occupiedPositions.has(foodKey)) {
+      return food;
+    }
+    
+    attempts++;
+  }
+  
+  // If we can't find a random position after many attempts, 
+  // find the first available position systematically
+  for (let x = 0; x < BOARD_SIZE; x++) {
+    for (let y = 0; y < BOARD_SIZE; y++) {
+      const foodKey = `${x},${y}`;
+      if (!occupiedPositions.has(foodKey)) {
+        return [x, y];
+      }
+    }
+  }
+  
+  // This should never happen, but just in case
+  return [0, 0];
 }
 
 const directions: Record<string, [number, number]> = {
@@ -37,9 +69,9 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
   const [direction, setDirection] = useState(INITIAL_DIRECTION);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [ready, setReady] = useState(false);
   const moveRef = useRef(direction);
   const gameOverRef = useRef(false);
 
@@ -56,8 +88,6 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
 
   // Keyboard controls
   useEffect(() => {
-    if (!gameStarted) return;
-    
     const handleKeyDown = (e: KeyboardEvent) => {
       const dir = directions[e.key];
       if (dir) {
@@ -70,11 +100,10 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameStarted]);
+  }, []);
 
   // Mobile control handlers
   const handleMobileControl = (dir: [number, number]) => {
-    if (!gameStarted || gameOver) return;
     setDirection((prev) => {
       // Prevent reversing
       if (prev[0] + dir[0] === 0 && prev[1] + dir[1] === 0) return prev;
@@ -84,7 +113,7 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
 
   // Game loop
   useEffect(() => {
-    if (gameOver || !gameStarted) return;
+    if (gameOver || !ready) return;
     moveRef.current = direction;
     const interval = setInterval(() => {
       setSnake((prev) => {
@@ -102,6 +131,13 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
         }
         let newSnake = [newHead, ...prev];
         if (newHead[0] === food[0] && newHead[1] === food[1]) {
+          // Check if the board is full (win condition)
+          if (newSnake.length >= BOARD_SIZE * BOARD_SIZE) {
+            setGameOver(true);
+            gameOverRef.current = true;
+            onGameOver(score + 10); // Add points for the last food
+            return newSnake;
+          }
           setFood(getRandomFood(newSnake));
           setScore((s) => s + 10);
         } else {
@@ -111,54 +147,103 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
       });
     }, SPEED);
     return () => clearInterval(interval);
-  }, [direction, food, gameOver, gameStarted, onGameOver, score]);
+  }, [direction, food, gameOver, onGameOver, score, ready]);
 
-  const handleStart = () => {
-    setGameStarted(true);
-  };
-
-  const handleRestart = () => {
+  // Show ready prompt on mount
+  useEffect(() => {
+    setReady(false);
     setSnake(INITIAL_SNAKE);
     setFood(getRandomFood(INITIAL_SNAKE));
     setDirection(INITIAL_DIRECTION);
     setScore(0);
     setGameOver(false);
-    setGameStarted(false);
     gameOverRef.current = false;
-  };
+  }, []);
 
   return (
     <div className="snake-game" style={{ 
       textAlign: 'center', 
-      padding: isFullscreen ? '2rem' : isMobile ? '1rem' : '1rem', 
+      padding: '0.5rem', 
       position: 'relative',
       maxWidth: '100%',
-      overflow: 'visible',
+      overflow: 'hidden',
       display: 'flex',
       flexDirection: isMobile ? 'column' : 'row',
-      gap: isFullscreen ? '3rem' : isMobile ? '1rem' : '2rem',
+      gap: '1rem',
       alignItems: 'flex-start',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      height: '100%',
+      minHeight: 0
     }}>
+      {/* Ready Overlay */}
+      {!ready && !gameOver && (
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          background: 'var(--background-color)',
+          padding: isFullscreen ? '3rem' : '2rem',
+          borderRadius: '15px',
+          textAlign: 'center',
+          border: '2px solid var(--border-color)',
+          color: 'var(--text-color)',
+          zIndex: 10,
+          maxWidth: isFullscreen ? '500px' : '90vw',
+          width: isFullscreen ? '500px' : '300px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          <h3 style={{ marginBottom: isFullscreen ? '1.5rem' : '1rem', color: 'var(--primary-color)', fontSize: isFullscreen ? '2rem' : '1.5rem' }}>Ready to play?</h3>
+          <p style={{ marginBottom: isFullscreen ? '2rem' : '1.5rem', color: 'var(--text-color-secondary)', fontSize: isFullscreen ? '1.1rem' : '1rem' }}>
+            Use WASD or arrow keys to control the snake. Eat the yellow food to grow and score points!
+          </p>
+          <button 
+            onClick={() => setReady(true)}
+            style={{
+              background: 'var(--primary-color)',
+              color: 'var(--background-color)',
+              border: 'none',
+              padding: isFullscreen ? '1rem 2rem' : '0.75rem 1.5rem',
+              borderRadius: '25px',
+              cursor: 'pointer',
+              fontWeight: '600',
+              fontSize: isFullscreen ? '1.2rem' : '1rem',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            Start Game
+          </button>
+        </div>
+      )}
       {/* Game Board Section - Centered */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '1rem',
+        gap: '0.5rem',
         flex: isMobile ? 'none' : '1',
         justifyContent: 'center',
         width: isMobile ? '100%' : 'auto',
-        margin: isMobile ? '0' : '0 auto'
+        margin: isMobile ? '0' : '0 auto',
+        minHeight: 0,
+        overflow: 'hidden'
       }}>
         <div className="game-board" style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
           gap: '1px',
-          maxWidth: isFullscreen ? '600px' : isMobile ? '350px' : '400px',
+          maxWidth: 'min(90vw, 400px)',
+          width: '100%',
+          aspectRatio: '1',
           background: 'var(--border-color)',
           borderRadius: '8px',
-          padding: isFullscreen ? '12px' : isMobile ? '6px' : '8px',
+          padding: '4px',
           margin: '0 auto'
         }}>
           {Array.from({ length: BOARD_SIZE * BOARD_SIZE }).map((_, i) => {
@@ -174,7 +259,6 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
                 style={{
                   width: '100%',
                   height: '100%',
-                  minHeight: isFullscreen ? '30px' : isMobile ? '18px' : '20px',
                   aspectRatio: '1',
                   background: isFood ? '#fdcb6e' : isHead ? '#00b894' : isSnake ? '#55efc4' : 'var(--card-background)',
                   borderRadius: isFood ? '50%' : 2,
@@ -187,7 +271,7 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
         </div>
         
         {/* Mobile Controls */}
-        {isMobile && gameStarted && !gameOver && (
+        {isMobile && (
           <div className="mobile-controls">
             <div className="snake-controls">
               <button 
@@ -228,116 +312,28 @@ export default function SnakeGame({ onGameOver }: SnakeGameProps) {
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '1rem',
-        minWidth: isFullscreen ? '300px' : isMobile ? 'auto' : '250px',
-        maxWidth: isFullscreen ? '400px' : isMobile ? '100%' : '300px',
+        gap: '0.5rem',
+        minWidth: isMobile ? 'auto' : '200px',
+        maxWidth: isMobile ? '100%' : '250px',
         alignSelf: 'flex-start',
-        flex: isMobile ? 'none' : '0 0 auto'
+        flex: isMobile ? 'none' : '0 0 auto',
+        overflow: 'hidden'
       }}>
         <div style={{ 
-          fontSize: isFullscreen ? '1rem' : '0.9rem', 
+          fontSize: '0.8rem', 
           color: 'var(--text-color-secondary)', 
-          padding: isFullscreen ? '1.5rem' : '1rem',
+          padding: '0.75rem',
           background: 'var(--card-background)',
           borderRadius: '8px',
           border: '1px solid var(--border-color)',
           textAlign: 'left'
         }}>
-          <div style={{ fontWeight: '600', marginBottom: isFullscreen ? '1rem' : '0.5rem', fontSize: isFullscreen ? '1.2rem' : '1rem' }}>Controls:</div>
-          <div style={{ fontSize: isFullscreen ? '1rem' : '0.9rem' }}>• Use WASD or Arrow keys to move</div>
-          <div style={{ fontSize: isFullscreen ? '1rem' : '0.9rem' }}>• Use on-screen controls on mobile</div>
-          <div style={{ fontSize: isFullscreen ? '1rem' : '0.9rem' }}>• Eat the yellow food to grow and score points!</div>
+          <div style={{ fontWeight: '600', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Controls:</div>
+          <div style={{ fontSize: '0.8rem' }}>• Use WASD or Arrow keys to move</div>
+          <div style={{ fontSize: '0.8rem' }}>• Use on-screen controls on mobile</div>
+          <div style={{ fontSize: '0.8rem' }}>• Eat the yellow food to grow and score points!</div>
         </div>
       </div>
-      
-      {!gameStarted && !gameOver && (
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'var(--card-background)',
-          padding: isFullscreen ? '3rem' : '2rem',
-          borderRadius: '15px',
-          textAlign: 'center',
-          border: '1px solid var(--border-color)',
-          backdropFilter: 'blur(10px)',
-          zIndex: 10,
-          maxWidth: isFullscreen ? '500px' : '90vw',
-          width: isFullscreen ? '500px' : '300px',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-        }}>
-          <h3 style={{ marginBottom: isFullscreen ? '1.5rem' : '1rem', color: 'var(--primary-color)', fontSize: isFullscreen ? '2rem' : '1.5rem' }}>Snake Game</h3>
-          <p style={{ marginBottom: isFullscreen ? '2rem' : '1.5rem', color: 'var(--text-color-secondary)', fontSize: isFullscreen ? '1.1rem' : '1rem' }}>
-            Use WASD or arrow keys to control the snake. Eat the yellow food to grow and score points!
-          </p>
-          <button 
-            onClick={handleStart}
-            style={{
-              background: 'var(--primary-color)',
-              color: 'var(--background-color)',
-              border: 'none',
-              padding: isFullscreen ? '1rem 2rem' : '0.75rem 1.5rem',
-              borderRadius: '25px',
-              cursor: 'pointer',
-              fontWeight: '600',
-              fontSize: isFullscreen ? '1.2rem' : '1rem',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          >
-            Start Game
-          </button>
-        </div>
-      )}
-      
-      {gameOver && (
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'var(--card-background)',
-          padding: isFullscreen ? '3rem' : '2rem',
-          borderRadius: '15px',
-          textAlign: 'center',
-          border: '1px solid var(--border-color)',
-          backdropFilter: 'blur(10px)',
-          zIndex: 10,
-          maxWidth: isFullscreen ? '500px' : '90vw',
-          width: isFullscreen ? '500px' : '300px'
-        }}>
-          <h3 style={{ marginBottom: isFullscreen ? '1.5rem' : '1rem', fontSize: isFullscreen ? '2rem' : '1.5rem' }}>Game Over!</h3>
-          <p style={{ marginBottom: isFullscreen ? '2rem' : '1.5rem', fontSize: isFullscreen ? '1.3rem' : '1rem' }}>Final Score: {score}</p>
-          <button 
-            onClick={handleRestart}
-            style={{
-              background: 'var(--primary-color)',
-              color: 'var(--background-color)',
-              border: 'none',
-              padding: isFullscreen ? '1rem 2rem' : '0.75rem 1.5rem',
-              borderRadius: '25px',
-              cursor: 'pointer',
-              fontWeight: '600',
-              fontSize: isFullscreen ? '1.2rem' : '1rem',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          >
-            Play Again
-          </button>
-        </div>
-      )}
     </div>
   );
 } 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SnakeGame from './SnakeGame';
 import TetrisGame from './TetrisGame';
@@ -10,15 +10,17 @@ interface GamesProps {
   onClose: () => void;
 }
 
-type GameType = 'snake' | 'tetris' | 'word-guess' | 'pokedle';
+type GameType = 'snake' | 'tetris' | 'word-guess' | 'poke-guess';
 
 export default function Games({ isOpen, onClose }: GamesProps) {
   const [currentGame, setCurrentGame] = useState<GameType | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
-  const wordGuessHintRef = useRef<() => void>(undefined);
-  const pokemonGuessHintRef = useRef<() => void>(undefined);
+  const [snakeGameKey, setSnakeGameKey] = useState(0);
+  const [tetrisGameKey, setTetrisGameKey] = useState(0);
+  const [wordGuessKey, setWordGuessKey] = useState(0);
+  const [pokemonGuessKey, setPokemonGuessKey] = useState(0);
 
   // Prevent body scroll when games are open
   useEffect(() => {
@@ -57,6 +59,10 @@ export default function Games({ isOpen, onClose }: GamesProps) {
     setGameOver(false);
     setGameWon(false);
     setFinalScore(0);
+    if (currentGame === 'snake') setSnakeGameKey(k => k + 1);
+    if (currentGame === 'tetris') setTetrisGameKey(k => k + 1);
+    if (currentGame === 'word-guess') setWordGuessKey(k => k + 1);
+    if (currentGame === 'poke-guess') setPokemonGuessKey(k => k + 1);
   };
 
   const containerVariants = {
@@ -147,7 +153,7 @@ export default function Games({ isOpen, onClose }: GamesProps) {
       color: '#fdcb6e'
     },
     {
-      id: 'pokedle',
+      id: 'poke-guess',
       title: 'Pokemon Platinum Guesser',
       description: 'Guess the Pokémon name from Pokemon Platinum.',
       icon: '⚡️',
@@ -194,7 +200,7 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                   <button className="close-button" onClick={onClose}>
                     ✕
                   </button>
-                  <h2>Some small games for you!</h2>
+                  <h2>Game Hub</h2>
                   <p>Take a break and enjoy some games!</p>
                 </div>
 
@@ -228,12 +234,13 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                 style={{
                   width: '100%',
                   height: '100%',
-                  padding: '2rem',
+                  padding: '1rem',
                   display: 'flex',
                   flexDirection: 'column',
-                  maxWidth: '1400px',
+                  maxWidth: '100%',
                   margin: '0 auto',
-                  position: 'relative'
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
               >
                 {/* GAME OVER SCREEN */}
@@ -257,19 +264,19 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       style={{
-                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)',
-                        border: '2px solid var(--accent-color)',
+                        background: 'var(--background-color)',
+                        border: '2px solid var(--border-color)',
                         borderRadius: '20px',
                         padding: '2rem',
                         textAlign: 'center',
+                        color: 'var(--text-color)',
                         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
-                        backdropFilter: 'blur(10px)',
                         minWidth: '300px',
                         maxWidth: '90vw'
                       }}
                     >
                       <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-                        {gameWon ? '🎉' : '💀'}
+                        {gameWon ? '🎉' : '𝐋'}
                       </div>
                       <h2 style={{ 
                         color: gameWon ? 'var(--primary-color)' : 'var(--text-color)',
@@ -290,7 +297,7 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                           onClick={handleRestart}
                           style={{
                             background: 'var(--primary-color)',
-                            color: 'white',
+                            color: 'var(--background-color)',
                             border: 'none',
                             padding: '0.75rem 1.5rem',
                             borderRadius: '25px',
@@ -312,7 +319,7 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                           onClick={handleBackToGames}
                           style={{
                             background: 'var(--accent-color)',
-                            color: 'white',
+                            color: 'var(--background-color)',
                             border: 'none',
                             padding: '0.75rem 1.5rem',
                             borderRadius: '25px',
@@ -344,9 +351,11 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    marginBottom: '2rem',
-                    padding: '1rem 0',
-                    borderBottom: '2px solid var(--border-color)'
+                    marginBottom: '1rem',
+                    padding: '0.5rem 0',
+                    borderBottom: '2px solid var(--border-color)',
+                    flexWrap: 'wrap',
+                    gap: '0.5rem'
                   }}
                 >
                   <button 
@@ -356,15 +365,16 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                       background: 'var(--primary-color)',
                       color: 'var(--background-color)',
                       border: 'none',
-                      padding: '0.75rem 1.5rem',
+                      padding: '0.5rem 1rem',
                       borderRadius: '25px',
                       cursor: 'pointer',
                       fontWeight: '600',
-                      fontSize: '1rem',
+                      fontSize: '0.9rem',
                       transition: 'all 0.2s ease',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem'
+                      gap: '0.5rem',
+                      whiteSpace: 'nowrap'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'scale(1.05)';
@@ -376,14 +386,16 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                     ← Back to Games
                   </button>
                   <h3 className="game-title" style={{
-                    fontSize: '2.5rem',
+                    fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
                     fontWeight: 'bold',
                     color: 'var(--primary-color)',
-                    margin: 0
+                    margin: 0,
+                    textAlign: 'center',
+                    flex: '1'
                   }}>
                     {games.find(g => g.id === currentGame)?.title}
                   </h3>
-                  <div style={{ width: '120px' }}></div> {/* Spacer for centering */}
+                  <div style={{ width: '100px' }}></div> {/* Spacer for centering */}
                 </motion.div>
                 <motion.div 
                   className="game-canvas"
@@ -396,21 +408,26 @@ export default function Games({ isOpen, onClose }: GamesProps) {
                     flexDirection: 'column',
                     justifyContent: 'flex-start',
                     alignItems: 'center',
-                    minHeight: '0'
+                    minHeight: 0,
+                    overflow: 'hidden',
+                    width: '100%'
                   }}
                 >
                   {/* GAME COMPONENTS */}
                   {currentGame === 'snake' && (
-                    <SnakeGame onGameOver={(score) => handleGameOver(score, false)} />
+                    <SnakeGame key={snakeGameKey} onGameOver={(score) => handleGameOver(score, false)} />
                   )}
                   {currentGame === 'tetris' && (
-                    <TetrisGame onGameOver={(score) => handleGameOver(score, false)} />
+                    <TetrisGame key={tetrisGameKey} onGameOver={(score) => handleGameOver(score, false)} />
                   )}
                   {currentGame === 'word-guess' && (
-                    <WordGuess onGameOver={(score) => handleGameOver(score, true)} onHint={cb => { wordGuessHintRef.current = cb; }} />
+                    <WordGuess key={wordGuessKey} onGameOver={(score, won) => handleGameOver(score, won)} />
                   )}
-                  {currentGame === 'pokedle' && (
-                    <PokemonGuess onGameOver={(score) => handleGameOver(score, true)} onHint={cb => { pokemonGuessHintRef.current = cb; }} />
+                  {currentGame === 'poke-guess' && (
+                    <PokemonGuess 
+                      key={pokemonGuessKey}
+                      onGameOver={(score, win) => handleGameOver(score, win)}
+                    />
                   )}
                 </motion.div>
               </motion.div>

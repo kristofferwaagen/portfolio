@@ -317,17 +317,6 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
     setGameStarted(true);
   };
 
-  const handleRestart = () => {
-    setBoard(createBoard());
-    setCurrentPiece(createPiece());
-    setScore(0);
-    setLevel(1);
-    setGameOver(false);
-    setIsPaused(false);
-    setGameStarted(false);
-    lastTimeRef.current = 0;
-  };
-
   const renderBoard = () => {
     const displayBoard = board.map(row => [...row]);
     
@@ -350,15 +339,17 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
   return (
     <div className="tetris-game" style={{ 
       textAlign: 'center', 
-      padding: isFullscreen ? '2rem' : isMobile ? '1rem' : '1rem', 
+      padding: '0.5rem', 
       position: 'relative',
       maxWidth: '100%',
-      overflow: 'visible',
+      overflow: 'hidden',
       display: 'flex',
       flexDirection: isMobile ? 'column' : 'row',
-      gap: isFullscreen ? '3rem' : isMobile ? '1rem' : '2rem',
+      gap: '1rem',
       alignItems: 'flex-start',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      height: '100%',
+      minHeight: 0
     }}>
       {/* Game Board Section - Centered */}
       <div style={{
@@ -378,7 +369,9 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
           background: 'var(--border-color)',
           padding: '1px',
           borderRadius: '8px',
-          maxWidth: isFullscreen ? '450px' : isMobile ? '280px' : '300px',
+          maxWidth: 'min(90vw, 300px)',
+          width: '100%',
+          aspectRatio: '10/20',
           margin: '0 auto'
         }}>
           {renderBoard().flat().map((cell, i) => (
@@ -387,7 +380,6 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
               style={{
                 width: '100%',
                 height: '100%',
-                minHeight: isFullscreen ? '22px' : isMobile ? '12px' : '15px',
                 aspectRatio: '1',
                 background: cell ? COLORS[cell - 1] : 'var(--card-background)',
                 borderRadius: '2px',
@@ -444,33 +436,34 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '1rem',
-        minWidth: isFullscreen ? '300px' : isMobile ? 'auto' : '250px',
-        maxWidth: isFullscreen ? '400px' : isMobile ? '100%' : '300px',
+        gap: '0.5rem',
+        minWidth: isMobile ? 'auto' : '200px',
+        maxWidth: isMobile ? '100%' : '250px',
         alignSelf: 'flex-start',
-        flex: isMobile ? 'none' : '0 0 auto'
+        flex: isMobile ? 'none' : '0 0 auto',
+        overflow: 'hidden'
       }}>
         <div style={{ 
           background: 'var(--card-background)',
-          padding: isFullscreen ? '2rem' : isMobile ? '0.75rem' : '1rem',
+          padding: '0.75rem',
           borderRadius: '8px',
           border: '1px solid var(--border-color)',
           textAlign: 'left'
         }}>
-          <h4 style={{ color: 'var(--primary-color)', marginBottom: isFullscreen ? '1.5rem' : isMobile ? '0.75rem' : '1rem', fontSize: isFullscreen ? '1.5rem' : isMobile ? '1rem' : '1.2rem' }}>Controls</h4>
-          <div style={{ fontSize: isFullscreen ? '1.1rem' : isMobile ? '0.8rem' : '0.9rem', color: 'var(--text-color-secondary)' }}>
-            <div style={{ marginBottom: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem' }}>
+          <h4 style={{ color: 'var(--primary-color)', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Controls</h4>
+          <div style={{ fontSize: '0.8rem', color: 'var(--text-color-secondary)' }}>
+            <div style={{ marginBottom: '0.5rem' }}>
               <strong>Keyboard:</strong>
             </div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>A/D - Move</div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>W - Rotate</div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>S - Drop</div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>Space - Hard Drop</div>
-            <div style={{ marginBottom: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem' }}>P - Pause</div>
-            <div style={{ marginTop: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem', marginBottom: isFullscreen ? '1rem' : isMobile ? '0.5rem' : '0.5rem' }}>
+            <div style={{ marginBottom: '0.25rem' }}>A/D - Move</div>
+            <div style={{ marginBottom: '0.25rem' }}>W - Rotate</div>
+            <div style={{ marginBottom: '0.25rem' }}>S - Drop</div>
+            <div style={{ marginBottom: '0.25rem' }}>Space - Hard Drop</div>
+            <div style={{ marginBottom: '0.5rem' }}>P - Pause</div>
+            <div style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}>
               <strong>Mobile:</strong>
             </div>
-            <div style={{ marginBottom: isFullscreen ? '0.5rem' : isMobile ? '0.25rem' : '0.25rem' }}>Use on-screen controls</div>
+            <div style={{ marginBottom: '0.25rem' }}>Use on-screen controls</div>
           </div>
         </div>
       </div>
@@ -481,12 +474,12 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          background: 'var(--card-background)',
+          background: 'var(--background-color)',
           padding: isFullscreen ? '3rem' : '2rem',
           borderRadius: '15px',
           textAlign: 'center',
-          border: '1px solid var(--border-color)',
-          backdropFilter: 'blur(10px)',
+          border: '2px solid var(--border-color)',
+          color: 'var(--text-color)',
           zIndex: 10,
           maxWidth: isFullscreen ? '500px' : '90vw',
           width: isFullscreen ? '500px' : '300px',
@@ -521,7 +514,7 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
         </div>
       )}
       
-      {(gameOver || isPaused) && (
+      {(isPaused) && (
         <div style={{
           position: 'absolute',
           top: '50%',
@@ -537,10 +530,9 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
           maxWidth: isFullscreen ? '500px' : '90vw',
           width: isFullscreen ? '500px' : '300px'
         }}>
-          <h3 style={{ marginBottom: isFullscreen ? '1.5rem' : '1rem', fontSize: isFullscreen ? '2rem' : '1.5rem' }}>{gameOver ? 'Game Over!' : 'Paused'}</h3>
-          {gameOver && <p style={{ marginBottom: isFullscreen ? '2rem' : '1.5rem', fontSize: isFullscreen ? '1.3rem' : '1rem' }}>Final Score: {score}</p>}
+          <h3 style={{ marginBottom: isFullscreen ? '1.5rem' : '1rem', fontSize: isFullscreen ? '2rem' : '1.5rem' }}>Paused</h3>
           <button 
-            onClick={gameOver ? handleRestart : () => setIsPaused(false)}
+            onClick={() => setIsPaused(false)}
             style={{
               background: 'var(--primary-color)',
               color: 'var(--background-color)',
@@ -559,7 +551,7 @@ export default function TetrisGame({ onGameOver }: TetrisGameProps) {
               e.currentTarget.style.transform = 'scale(1)';
             }}
           >
-            {gameOver ? 'Play Again' : 'Resume'}
+            Resume
           </button>
         </div>
       )}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 interface PokemonGuessProps {
-  onGameOver: (score: number) => void;
+  onGameOver: (score: number, win: boolean) => void;
 }
 
 interface PokemonData {
@@ -39,6 +39,7 @@ function isValidPokemon(word: string, pokemonList: PokemonData[]): boolean {
 
 function getEvolutionStage(pokemonName: string, evolutionLine: string[]): number {
   const index = evolutionLine.findIndex(name => name.toLowerCase() === pokemonName.toLowerCase());
+  // If Pokemon is not in its evolution line, it's stage 1 (base form)
   return index >= 0 ? index + 1 : 1;
 }
 
@@ -85,7 +86,6 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
   const [currentGuess, setCurrentGuess] = useState('');
   const [guesses, setGuesses] = useState<GuessResult[]>([]);
   const [gameOver, setGameOver] = useState(false);
-  const [gameWon, setGameWon] = useState(false);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -140,9 +140,8 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
         setGuesses(newGuesses);
         setCurrentGuess('');
         if (currentGuess.toLowerCase() === targetPokemon.name.toLowerCase()) {
-          setGameWon(true);
           setGameOver(true);
-          onGameOver(newGuesses.length);
+          onGameOver(newGuesses.length, true);
         }
       }
     } else if (key === 'BACKSPACE') {
@@ -176,7 +175,6 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
     setCurrentGuess('');
     setGuesses([]);
     setGameOver(false);
-    setGameWon(false);
     setMessage('');
     setShowSuggestions(false);
     setSuggestions([]);
@@ -622,9 +620,11 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
   return (
     <div className="pokemon-guess" style={{ 
       textAlign: 'center', 
-      padding: isFullscreen ? '2rem' : isMobile ? '0.5rem' : '1rem',
-      maxWidth: '100vw',
-      overflow: 'hidden'
+      padding: '0.5rem',
+      maxWidth: '100%',
+      overflow: 'hidden',
+      height: '100%',
+      minHeight: 0
     }}>
       <h3 style={{ 
         color: 'var(--primary-color)', 
@@ -637,9 +637,11 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
       
       {renderHeader()}
       <div style={{ 
-        marginBottom: isFullscreen ? '3rem' : isMobile ? '1rem' : '2rem',
+        marginBottom: '0.5rem',
         maxWidth: '100%',
-        overflow: 'auto'
+        maxHeight: '60vh',
+        overflowY: 'auto',
+        overflowX: 'hidden'
       }}>
         {guesses.map((guess, index) => renderGuessRow(guess, index))}
       </div>
@@ -843,61 +845,6 @@ export default function PokemonGuess({ onGameOver }: PokemonGuessProps) {
           {hintUsed ? '🔒 Hint Used' : '💡 Reveal Category'}
         </button>
       </div>
-      {(gameOver || gameWon) && (
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'var(--card-background)',
-          padding: isFullscreen ? '3rem' : isMobile ? '1.5rem' : '2rem',
-          borderRadius: '15px',
-          textAlign: 'center',
-          border: '1px solid var(--border-color)',
-          backdropFilter: 'blur(10px)',
-          zIndex: 10,
-          maxWidth: isFullscreen ? '600px' : isMobile ? '90vw' : '400px',
-          width: isFullscreen ? '600px' : isMobile ? '90vw' : '400px'
-        }}>
-          <h3 style={{ 
-            fontSize: isFullscreen ? '2rem' : isMobile ? '1.2rem' : '1.5rem',
-            marginBottom: isFullscreen ? '1.5rem' : '1rem'
-          }}>
-            {gameWon ? '⚡️ Gotcha!' : '😔 Game Over'}
-          </h3>
-          <p style={{ 
-            marginBottom: isFullscreen ? '2rem' : '1rem',
-            fontSize: isFullscreen ? '1.3rem' : isMobile ? '0.9rem' : '1rem'
-          }}>
-            {gameWon 
-              ? `You caught ${targetPokemon?.name} in ${guesses.length} tries!` 
-              : `The Pokémon was: ${targetPokemon?.name}`
-            }
-          </p>
-          <button 
-            onClick={handleRestart}
-            style={{
-              background: 'var(--primary-color)',
-              color: 'var(--background-color)',
-              border: 'none',
-              padding: isFullscreen ? '1rem 2rem' : isMobile ? '0.6rem 1.2rem' : '0.75rem 1.5rem',
-              borderRadius: '25px',
-              cursor: 'pointer',
-              fontWeight: '600',
-              fontSize: isFullscreen ? '1.2rem' : isMobile ? '0.9rem' : '1rem',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          >
-            Play Again
-          </button>
-        </div>
-      )}
       <div style={{ 
         fontSize: isFullscreen ? '1rem' : isMobile ? '0.7rem' : '0.8rem', 
         color: 'var(--text-color-secondary)', 

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 
 interface WordGuessProps {
-  onGameOver: (score: number) => void;
+  onGameOver: (score: number, won: boolean) => void;
   onHint?: (revealLetter: () => void) => void;
 }
 
@@ -10,10 +10,6 @@ const MAX_ATTEMPTS = 6;
 
 function getRandomWord(words: string[]): string {
   return words[Math.floor(Math.random() * words.length)];
-}
-
-function isValidWord(word: string, words: string[]): boolean {
-  return words.includes(word.toUpperCase());
 }
 
 type LetterState = 'correct' | 'present' | 'absent' | 'unused';
@@ -55,7 +51,6 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
   const [guesses, setGuesses] = useState<string[]>([]);
   const [evaluations, setEvaluations] = useState<LetterState[][]>([]);
   const [gameOver, setGameOver] = useState(false);
-  const [gameWon, setGameWon] = useState(false);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -119,11 +114,6 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
         setTimeout(() => setMessage(''), 2000);
         return;
       }
-      if (!isValidWord(currentGuess, words)) {
-        setMessage('Not a valid word');
-        setTimeout(() => setMessage(''), 2000);
-        return;
-      }
       const newGuesses = [...guesses, currentGuess.toUpperCase()];
       const newEvaluations = [...evaluations, evaluateGuess(targetWord, currentGuess.toUpperCase())];
       setGuesses(newGuesses);
@@ -131,12 +121,11 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
       setCurrentGuess('');
       setShowSuggestions(false);
       if (currentGuess.toUpperCase() === targetWord) {
-        setGameWon(true);
         setGameOver(true);
-        onGameOver(MAX_ATTEMPTS - newGuesses.length + 1);
+        onGameOver(MAX_ATTEMPTS - newGuesses.length + 1, true);
       } else if (newGuesses.length >= MAX_ATTEMPTS) {
         setGameOver(true);
-        onGameOver(0);
+        onGameOver(0, false);
       }
     } else if (key === 'BACKSPACE') {
       setCurrentGuess(prev => prev.slice(0, -1));
@@ -180,11 +169,6 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
       setTimeout(() => setMessage(''), 2000);
       return;
     }
-    if (!isValidWord(currentGuess, words)) {
-      setMessage('Not a valid word');
-      setTimeout(() => setMessage(''), 2000);
-      return;
-    }
     
     const newGuesses = [...guesses, currentGuess.toUpperCase()];
     const newEvaluations = [...evaluations, evaluateGuess(targetWord, currentGuess.toUpperCase())];
@@ -194,12 +178,11 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
     setShowSuggestions(false);
     
     if (currentGuess.toUpperCase() === targetWord) {
-      setGameWon(true);
       setGameOver(true);
-      onGameOver(MAX_ATTEMPTS - newGuesses.length + 1);
+      onGameOver(MAX_ATTEMPTS - newGuesses.length + 1, true);
     } else if (newGuesses.length >= MAX_ATTEMPTS) {
       setGameOver(true);
-      onGameOver(0);
+      onGameOver(0, false);
     }
   };
 
@@ -216,7 +199,6 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
     setGuesses([]);
     setEvaluations([]);
     setGameOver(false);
-    setGameWon(false);
     setMessage('');
     setShowSuggestions(false);
     setHintUsed(false);
@@ -356,15 +338,15 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
     <div className="word-guess" style={{ 
       textAlign: 'center', 
       position: 'relative',
-      padding: isFullscreen ? '2rem' : isMobile ? '1rem' : '1rem',
-      paddingBottom: isFullscreen ? '4rem' : isMobile ? '3rem' : '3rem',
+      padding: '0.5rem',
       maxWidth: '100%',
-      overflow: 'visible',
-      minHeight: '100%',
+      overflow: 'hidden',
+      height: '100%',
+      minHeight: 0,
       display: 'flex',
       flexDirection: isMobile ? 'column' : 'row',
-      gap: isFullscreen ? '3rem' : isMobile ? '1rem' : '2rem',
-      alignItems: 'center',
+      gap: '1rem',
+      alignItems: 'flex-start',
       justifyContent: 'center'
     }}>
       {/* Game Section - Centered */}
@@ -372,23 +354,24 @@ export default function WordGuess({ onGameOver, onHint }: WordGuessProps) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '1rem',
+        gap: '0.5rem',
         flex: isMobile ? 'none' : '1',
         justifyContent: 'center',
         width: isMobile ? '100%' : 'auto',
-        margin: isMobile ? '0' : '0 auto'
+        margin: isMobile ? '0' : '0 auto',
+        minHeight: 0,
+        overflow: 'hidden'
       }}>
         {/* Game Grid */}
         <div style={{ 
-          marginBottom: isFullscreen ? '2rem' : isMobile ? '1rem' : '1.5rem',
+          marginBottom: '0.5rem',
           maxWidth: '100%',
-          overflow: 'visible',
+          overflow: 'hidden',
           flex: '0 1 auto',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-start',
-          minHeight: isFullscreen ? '400px' : isMobile ? '200px' : '300px',
-          maxHeight: isFullscreen ? '500px' : isMobile ? '300px' : '400px',
+          maxHeight: '60vh',
           margin: '0 auto'
         }}>
           {guesses.map((guess, index) => renderRow(guess, evaluations[index], index))}

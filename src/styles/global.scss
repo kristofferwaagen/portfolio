@@ -473,11 +473,12 @@ section {
         font-size: 0.9rem;
         
         .help-text {
-          display: none;
+          white-space: normal;
+          font-size: 0.85rem;
         }
         
         .help-icon {
-          font-size: 1.4rem;
+          font-size: 1.2rem;
         }
       }
     }
@@ -1311,12 +1312,12 @@ section {
     &::before {
       content: '';
       position: absolute;
-      left: 50%;
+  left: 50%;
       top: 0;
       bottom: 0;
       width: 2px;
       background: $gradient-primary;
-      transform: translateX(-50%);
+  transform: translateX(-50%);
 
       @media (max-width: 768px) {
         left: 20px;
@@ -1561,7 +1562,7 @@ section {
       font-size: 1.5rem;
       margin-bottom: 2rem;
       color: $primary-color;
-      text-align: center;
+  text-align: center;
     }
   }
 
@@ -1617,7 +1618,7 @@ section {
       border: 1px solid rgba(255, 255, 255, 0.2);
 
       .summary-icon {
-        font-size: 3rem;
+    font-size: 3rem;
         margin-bottom: 1rem;
       }
 
@@ -2423,7 +2424,7 @@ section {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+    font-size: 1.2rem;
 
       &::before {
         content: '';
@@ -3963,7 +3964,7 @@ body.games-open {
       font-size: 0.9rem;
       
       .help-icon {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
       }
     }
   }
